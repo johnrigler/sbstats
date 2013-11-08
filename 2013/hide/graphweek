@@ -1,0 +1,17 @@
+#!/bin/bash
+
+WD=`pwd`
+
+ls -d week/*/byhost | while read MYPATH
+	do
+	cd $MYPATH 
+	ls | while read MYSUBPATH
+	  do
+          cd $MYSUBPATH
+	  pwd
+	  echo $MYSUBPATH
+	  php graphweek.php > ../"$MYSUBPATH".png
+	  cd ..
+	  done
+	cd $WD 
+	done

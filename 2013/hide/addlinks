@@ -1,0 +1,18 @@
+#!/bin/bash
+
+WD=`pwd`
+
+ls -d week/*/byhost | while read MYPATH
+	do
+	cd $MYPATH 
+	ls | while read MYSUBPATH
+	  do
+          cd $MYSUBPATH
+	  ln -s ../../../childindex.php index.php
+	  ln -s ../../../graphweek.php 
+	  ln -s ../../../graphday.php
+	  pwd
+	  cd ..
+	  done
+	cd $WD 
+	done

@@ -2,8 +2,10 @@
 
 error_reporting(0);
 
-include '/home/secrets/www/stats/2010/library.php';
-include '/home/secrets/www/stats/2010/site-config.php';
+include '/home/secrets/www/stats/library.php';
+include '/home/secrets/www/stats/site-config.php';
+include '/home/secrets/www/stats/colors.php';
+include '/home/secrets/www/stats/2013/mapweek.php';
 
 $FileName = "$_GET[file]";
 
@@ -30,36 +32,20 @@ imagefilledrectangle($img,$LeftEdge, $TopEdge, $RightEdge, $BottomEdge , $color)
 }
 
 
-function PrettyHour( $Hour ) {
+function PrettyDay( $Day ) {
 
-if($Hour == 0 )$Hour = "12pm";
-if($Hour == 1 )$Hour = "1am";
-if($Hour == 2 )$Hour = "2am";
-if($Hour == 3 )$Hour = "3am";
-if($Hour == 4 )$Hour = "4am";
-if($Hour == 5 )$Hour = "5am";
-if($Hour == 6 )$Hour = "6am";
-if($Hour == 7 )$Hour = "7am";
-if($Hour == 8 )$Hour = "8am";
-if($Hour == 9 )$Hour = "9am";
-if($Hour == 10 )$Hour = "10am";
-if($Hour == 11 )$Hour = "11am";
-if($Hour == 12 )$Hour = "12am";
-if($Hour == 13 )$Hour = "1pm";
-if($Hour == 14 )$Hour = "2pm";
-if($Hour == 15 )$Hour = "3pm";
-if($Hour == 16 )$Hour = "4pm";
-if($Hour == 17 )$Hour = "5pm";
-if($Hour == 18 )$Hour = "6pm";
-if($Hour == 19 )$Hour = "7pm";
-if($Hour == 20 )$Hour = "8pm";
-if($Hour == 21 )$Hour = "9pm";
-if($Hour == 22 )$Hour = "10pm";
-if($Hour == 23 )$Hour = "11pm";
+if($Day == 0)$Day = "Sun";
+if($Day == 1)$Day = "Mon";
+if($Day == 2)$Day = "Tue";
+if($Day == 3)$Day = "Wed";
+if($Day == 4)$Day = "Thu";
+if($Day == 5)$Day = "Fri";
+if($Day == 6)$Day = "Sat";
 
-return $Hour;
+return $Day;
 
 }
+
 
 function CreateGrid( $color ) {
 
@@ -71,6 +57,25 @@ global $UnitHeight;
 
 global $GridHeight;
 global $HorizontalGridMark;
+
+$GraphLeft += 40;
+$GraphRight += 1100;
+$DayWidth = ($GraphRight - $GraphLeft) / 7;
+
+for ($x = 0 ; $x < 7 ; $x++){
+$Xcoord = $GraphLeft + ($DayWidth * $x) -1;
+imageline($img,$Xcoord ,$GraphBottom + 16 ,$Xcoord ,$GraphBottom-200, $color);
+ImageString($img, 4, $Xcoord, $GraphBottom + 20, PrettyDay($x),$color);
+	for($xx = 0; $xx < 24; $xx++)
+		{
+		$hourwidth = 6.31;
+		imageline($img,$Xcoord + ($xx * $hourwidth),$GraphBottom + 1,$Xcoord + ($xx * $hourwidth) ,$GraphBottom + 10,$color);
+		}
+
+}
+
+
+
 $GridBottom = $GraphBottom + 1;
 
 imagerectangle( $img, $GraphLeft - 1, $GridBottom, $GraphRight + 1, $GridBottom - $GridHeight * $UnitHeight, $color);
@@ -115,34 +120,70 @@ global $GraphConfiguration;
 $Type = $_GET['report'];
 
 
-  $UnitArray = "oneday";
+  $UnitArray = "oneweek";
 
-include '/home/secrets/www/stats/2010/oneday.php';
-include '/home/secrets/www/stats/2010/mapday.php';
+$dirname = ".";
+$dir = opendir($dirname);
+
+$dirFiles = array();
+$dirDays = array();
+$week = array();
+
+$week['0']['0000'] = "x";
 
 
-if (($handle = fopen("$FileName", "r")) !== FALSE) 
-    {
-    $header = fgetcsv($handle, 1000, " ");
-    while (($data = fgetcsv($handle, 1000, " ")) !== FALSE) 
-	{
-        $key = $data[0];
-        if(isset($data[2]))$oneday[$key] = $data[2];
-        if(is_numeric(substr($key,2,1)))
-		if($Week)
-			if(isset($data[2]))
-				$oneweek[$key] = $data[3];
+while(false != ($file = readdir($dir)))
+{
+$stuff = explode(".",$file);
+if($stuff[1] == "sbstats")
+        $dirFiles[] = $file;
 
+}
+
+sort ($dirFiles);
+
+$week = array();
+
+for ($x = 0 ; $x < 7; $x++)
+        {
+        for ($y = 0; $y < 24; $y++)
+                {
+                $valy = sprintf('%02d', $y);
+                for ($z = 0; $z < 60; $z = $z + 5)
+                        {
+                        $valz = sprintf('%02d', $z);
+                        $val = $valy . $valz;
+                        $week[$x][$val] = "";
+                        }
+                }
         }
-    fclose($handle);
-    }
+
+
+foreach($dirFiles as $file)
+        {
+	$day = substr($file,10,1);
+	$dirDays[$day] = $file;
+        list( $date,$serial,$machinedesc,$host,$type,$report) = explode(":",$file);
+        $temp = explode(".",$report);
+        $report = $temp[0];
+
+ 	if(($handle = fopen($dirDays[$day], "r")) !== FALSE) 
+    	{
+    	while (($data = fgetcsv($handle, 1000, " ")) !== FALSE) 
+		{
+		$key = substr($data[0],0,2) . substr($data[0],3,2);
+		$week[$day][$key] = $data[2];
+        	}
+    	fclose($handle);
+	}
+    }	
+
+//print_r($week);
+
 
 list($Class,$Subclass,$Data) = explode(" ",$header);
 
-$reverseheader = array_reverse($header);
-$Class = array_pop($reverseheader);
-$SubClass = array_pop($reverseheader);
-$Header = array_reverse($reverseheader);
+$Type = "aix1";
 
 if ($GraphConfiguration[$Type]['facts'])	
   {
@@ -164,8 +205,8 @@ else
   $MyFacts = $Header;	
   }
 
-DebugArray("Header");
-DebugArray("oneday");
+DebugArray("week");
+
 
 $Title = PrettyName($FileName);
 
@@ -174,7 +215,6 @@ $Title = PrettyName($FileName);
     $TempFactDescription = explode(";",$FactDescription);
     $MyFacts[$index] = $TempFactDescription[1];
     }
-
 
 $GridHeight = $GraphConfiguration[$Type]['gridheight'];
 $UnitHeight = $GraphConfiguration[$Type]['unitheight'];
@@ -186,15 +226,18 @@ $img = imagecreatetruecolor(1120, $PageHeight);
 
 DebugArray("MyFacts");
 
-include '/home/secrets/www/stats/2010/colors.php';
+//include '/home/secrets/www/stats/colors.php';
+
 
 // Set the Background of the Graph
 
 imagefilledrectangle( $img, 0, 0, 1120, $PageHeight, $GraphBackgroundColor );
 
 
+
 ImageString($img,4,10,8,"$Type $Granularity min.",$TextColor);
 ImageString($img,4,10,24,"$Title",$TextColor);
+
 
 global $GraphDimensions;
 
@@ -208,9 +251,16 @@ global $GraphDimensions;
 
   $GraphRight = $GraphLeft + ($TotalWidth * $TotalUnits);
 
-  CreateGrid( $GridColor );
+$GridColor = imagecolorallocate($img, 100,100,80);
 
-  Map($GraphDimensions[$Granularity]['MapArgument']);
+////  CreateGrid( $GridColor );
+
+ // imagefilledrectangle($img,$LeftEdge, $TopEdge, $RightEdge, $BottomEdge , $color);
+
+$TextColor2 = imagecolorallocate($img, 100,100,80);
+ imagefilledrectangle($img,10,10,20,20,$TextColor2);
+
+  //Map($GraphDimensions[$Granularity]['MapArgument']);
 
   $GraphBottom = $GraphBottom + 20;
   $UnitHeight = 2;
