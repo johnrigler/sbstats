@@ -1,0 +1,7 @@
+cd $1
+ls | while read FILE
+	do
+	cat $FILE | sed -f ../date.sed >> $$.tmp
+	mv $$.tmp $FILE
+	done
+cd ..

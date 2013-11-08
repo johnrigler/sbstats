@@ -1,0 +1,137 @@
+<? 
+$StreamData = array(
+nad0019aixd01 => array( 'aixd01','aix'),
+nad0019aixd02 => array( 'aixd02','aix'),
+nad0019aixd03 => array( 'aixd03','aix'),
+nad0019aixd08 => array( 'aixd08','aix'),
+nad0019aixd09 => array( 'aixd09','aix'),
+nad0019aixd10 => array( 'aixd10','aix'),
+nad0019aixd11 => array( 'aixd11','aix'),
+nad0019aixd12 => array( 'aixd12','aix'),
+nad0019aixd13 => array( 'aixd13','aix'),
+nad0019aixd14 => array( 'aixd14','aix'),
+nad0019aixd15 => array( 'aixd15','aix'),
+nad0019aixd16 => array( 'aixd16','aix'),
+nad0019aixd17 => array( 'aixd17','aix'),
+nad0019aixd19 => array( 'aixd19','aix'),
+nad0019aixd20 => array( 'aixd20','aix'),
+nad0019aixd21 => array( 'aixd21','aix'),
+nad0019aixd22 => array( 'aixd22','aix'),
+nad0019aixd26 => array( 'aixd26','aix'),
+nad0019aixd27 => array( 'aixd27','aix'),
+nad0019aixd28 => array( 'aixd28','aix'),
+nad0019aixd29 => array( 'aixd29','aix'),
+nad0019aixd30 => array( 'aixd30','aix'),
+nad0019aixd35 => array( 'aixd35','aix'),
+nad0019aixd37 => array( 'aixd37','aix'),
+nad0019aixd38 => array( 'aixd38','aix'),
+nad0019aixd39 => array( 'aixd39','aix'),
+nad0019aixp01 => array( 'aixp01','aix'),
+nad0019aixp03 => array( 'aixp03','aix'),
+nad0019aixp04 => array( 'aixp04','aix'),
+nad0019aixp05 => array( 'aixp05','aix'),
+nad0019aixp06 => array( 'aixp06','aix'),
+nad0019aixp07 => array( 'aixp07','aix'),
+nad0019aixp08 => array( 'aixp08','aix'),
+nad0019aixp09 => array( 'aixp09','aix'),
+nad0019aixp10 => array( 'aixp10','aix'),
+nad0019aixp11 => array( 'aixp11','aix'),
+nad0019aixp12 => array( 'aixp12','aix'),
+nad0019aixp14 => array( 'aixp14','aix'),
+nad0019aixp15 => array( 'aixp15','aix'),
+nad0019aixp16 => array( 'aixp16','aix'),
+nad0019aixp17 => array( 'aixp17','aix'),
+nad0019aixp19 => array( 'aixp19','aix'),
+nad0019aixp20 => array( 'aixp20','aix'),
+nad0019aixp21 => array( 'aixp21','aix'),
+nad0019aixp22 => array( 'aixp22','aix'),
+nad0019aixp23 => array( 'aixp23','aix'),
+nad0019aixp24 => array( 'aixp24','aix'),
+nad0019aixp25 => array( 'aixp25','aix'),
+nad0019viod02 => array( 'viod02','aix'),
+nad0019viod07 => array( 'viod07','aix'),
+nad0019viod08 => array( 'viod08','aix'),
+nad0019viod09 => array( 'viod09','aix'),
+nad0019viod10 => array( 'viod10','aix'),
+nad0019viop01 => array( 'viop01','aix'),
+nad0019viop02 => array( 'viop02','aix'),
+nad0019viop03 => array( 'viop03','aix'),
+nad0019viop04 => array( 'viop04','aix'),
+nad0019viop05 => array( 'viop05','aix'),
+nad0019viop06 => array( 'viop06','aix'),
+nad0019viop07 => array( 'viop07','aix'),
+nad0019viop08 => array( 'viop08','aix'),
+nad0019viop09 => array( 'viop09','aix'),
+draixp08 => array( 'draixp08','aix'),
+draixp10 => array( 'draixp10','aix'),
+draixp15 => array( 'draixp15','aix'),
+draixp14 => array( 'draixp14','aix'),
+draixp12 => array( 'draixp12','aix'),
+draixp11 => array( 'draixp11','aix'),
+draixp06 => array( 'draixp06','aix'),
+drviop01 => array( 'drviop01','aix'),
+draixp19 => array( 'draixp19','aix'),
+draixp20 => array( 'draixp20','aix'),
+draixp07 => array( 'draixp07','aix'),
+draixp21 => array( 'draixp21','aix'),
+drviop02 => array( 'drviop02','aix'),
+draixp24 => array( 'draixp24','aix'),
+drviop03 => array( 'drviop03','aix'),
+drviop04 => array( 'drviop04','aix'),
+newdraixp02s  => array( 'newdraixp02s','aix'),
+icashbags => array( 'icashbags', 'bags' ),
+p550f2441 => array( '550f2441', 'pseries' ),
+p550f24a1 => array( '550f24a1', 'pseries' ),
+icash => array( 'icash', ''),
+p6prod => array( 'p6prod', '')
+);
+
+$Associations = array(
+	'icash' => array( 'icashbags', 'nad0019aixp21', 'nad0019aixp22' , 'nad0019aixp24' , 'nad0019aixp15' ) ,
+	'hrhyper' => array( 'nad0019aixp03','nad0019aixp05','nad0019aixp06','nad0019aixp07' ),
+        'finance' => array( 'nad0019aixp10', 'nad0019aixp11' , 'nad0019aixp12' ) ,
+	'otherhr' => array( 'nad0019aixp19', 'nad0019aixp20' , 'nad0019aixp23' , 'nad0019aixp25' ),
+        'admin' => array( 'nad0019aixp01', 'nad0019aixp08' , 'nad0019aixp09' ),
+        'icashdev' => array( 'nad0019aixd15' ,'nad0019aixd17', 'nad0019aixd18' , 'nad0019aixd29' , 'nad0019aixd30' , 'nad0019aixd37' , 'nad0019aixd38' ,'nad0019aixd39' ) ,
+	'hrhyperdev' => array ( 'nad0019aixd02' , 'nad0019aixd03' , 'nad0019aixd08' , 'nad0019aixd09' ),
+	'financedev' => array ( 'nad0019aixd12' , 'nad0019aixd13' , 'nad0019aixd16' ),
+	'otherhrdev' => array ( 'nad0019aixd19' , 'nad0019aixd20' , 'nad0019aixd21' , 'nad0019aixd22' , 'nad0019aixd23' ),
+	'hr9dev' => array ( 'nad0019aixd26' , 'nad0019aixd27' , 'nad0019aixd28' ),
+	'admindev' => array ( 'nad0019aixd01' , 'nad0019aixd10' , 'nad0019aixd11' ), 
+	'550f2441' => array( 'nad0019aixp21', 'nad0019aixp24' , 'nad0019aixp23' , 'nad0019viop06' , 'nad0019viop08' ) ,
+        '550f24a1' => array( 'nad0019aixp22', 'nad0019aixp19' , 'nad0019aixp20' , 'nad0019aixp25' , 'nad0019viop05' , 'nad0019viop07' ),
+	'p5oldprod' => array( '0210DEAEA' , '02101B3DA' ),
+        'p5prod' => array( '031036A9H' , '03104F0CH' , '02069738E' ),
+	'p6prod' => array( '0310F2441', '0310F24A1' ),
+        'p5dev' => array( '03103878H' ),
+        'p6dev' => array( '0206689C5', '0206689D5' ),
+	'icashdr' => array( 'draixp21','draixp24'),
+	'drphys' => array( '031035C1H','031036B1H','03104EFFH','02069737E','0210DEAFA' )
+
+/*
+
+0206689C5
+0206689D5
+02069737E
+02069738E
+02101B3DA
+02103878A
+02107287C
+0210DEAEA
+0210DEAFA
+031035C1H
+031036A9H
+031036B1H
+03103878H
+03104EFFH
+03104F0CH
+0310F2441
+0310F24A1
+
+
+*/
+
+
+		);
+
+?>

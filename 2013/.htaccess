@@ -1,0 +1,4 @@
+AuthName "Current Stats"
+AuthUserFile "/home/secrets/.htpasswds/public_html/stats/2013/passwd"
+AuthType Basic
+require valid-user

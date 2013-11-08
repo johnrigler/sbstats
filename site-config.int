@@ -1,0 +1,129 @@
+<?
+
+$FileDir="/var/www/stats";
+
+#$GraphConfiguration['aix1']['facts'] = array( "16;I/O Wait" , "14;System" , "13;User" , "6;Swap Out" , "5;Swap In" );
+$GraphConfiguration['aix1']['facts'] = array( "14;System" , "13;User" , "16;I/O Wait", "6;Swap Out" , "5;Swap In" );
+$GraphConfiguration['aix1']['gridheight'] = 100;
+$GraphConfiguration['aix1']['unitheight'] = 2;
+$GraphConfiguration['aix1']['gridmarks'] = 10;
+
+$GraphConfiguration['bag1']['facts'] = array( "0;Bags" );
+$GraphConfiguration['bag1']['gridheight'] = 999.9;
+$GraphConfiguration['bag1']['unitheight'] = .25;
+$GraphConfiguration['bag1']['gridmarks'] = 50;
+
+$GraphConfiguration['bagsweek']['facts'] = array( "0;Bags" );
+$GraphConfiguration['bagsweek']['gridheight'] = 8000;
+$GraphConfiguration['bagsweek']['unitheight'] = .025;
+$GraphConfiguration['bagsweek']['gridmarks'] = 1000;
+
+$GraphConfiguration['pseries1']['gridheight'] = 800;
+$GraphConfiguration['pseries1']['unitheight'] = .3;
+$GraphConfiguration['pseries1']['gridmarks'] = 100;
+
+$Sets = array( 	'icash_home' =>
+                        array( 'icash_bag1' ,
+                        'nad0019aixp21_aix1',
+                        'nad0019aixp22_aix1',
+                        'nad0019aixp24_aix1',
+                        'nad0019aixp15_aix1' ),
+		
+		'hrhyper_home' =>
+			array('nad0019aixp03_aix1',
+			'nad0019aixp05_aix1',
+			'nad0019aixp06_aix1',
+			'nad0019aixp07_aix1'),
+		'otherhr_home' =>
+			array('nad0019aixp19_aix1',
+			'nad0019aixp20_aix1',
+			'nad0019aixp23_aix1',
+			'nad0019aixp25_aix1'),
+        	'finance_home' => 
+			array( 'nad0019aixp10_aix1',
+			'nad0019aixp11_aix1', 
+			'nad0019aixp12_aix1' ),
+        	'admin_home' => 
+			array( 'nad0019aixp01_aix1', 
+			'nad0019aixp08_aix1' , 
+			'nad0019aixp09_aix1' ),
+	        'p6prod_home' => 
+			array( '0310F2441_pseries1', 
+			'0310F24A1_pseries1' ),
+
+		'p5oldprod_home' => 
+			array( '0210DEAEA_pseries1' , 
+			'02101B3DA_pseries1' ),
+
+	        'p5prod_home' =>
+			array( '031036A9H_pseries1' , 
+			'03104F0CH_pseries1' , 
+			'02069738E_pseries1' ),
+
+		'icashdev_home' => 
+			array( 'nad0019aixd15_aix1',
+			'nad0019aixd17_aix1', 
+			'nad0019aixd18_aix1' , 
+			'nad0019aixd29_aix1' , 
+			'nad0019aixd30_aix1' , 
+			'nad0019aixd37_aix1' , 
+			'nad0019aixd38_aix1' ,
+			'nad0019aixd39_aix1' ),
+
+	        'dev_home' => 
+			array( '0206689C5_pseries1', 
+			'0206689D5_pseries1',
+			'03103878H_pseries1' ),
+
+		'hrhyperdev_home' =>
+			array( 'nad0019aixd02_aix1',
+			'nad0019aixd03_aix1',
+                        'nad0019aixd03_aix1',
+                        'nad0019aixd08_aix1',
+                        'nad0019aixd09_aix1' ),
+
+                'otherhrdev_home' =>
+                        array( 'nad0019aixd19_aix1',
+                        'nad0019aixd20_aix1',
+                        'nad0019aixd21_aix1',
+                        'nad0019aixd22_aix1' ),
+
+                'hr9dev_home' =>
+                        array( 'nad0019aixd26_aix1',
+                        'nad0019aixd27_aix1',
+                        'nad0019aixd28_aix1' ),
+
+		'admindev_home' =>
+			array( 'nad0019aixd01_aix1',
+			'nad0019aixd10_aix1',
+                        'nad0019aixd11_aix1' ),
+
+                'financedev_home' =>
+                        array( 'nad0019aixd12_aix1',
+                        'nad0019aixd13_aix1',
+                        'nad0019aixd16_aix1' ),
+
+                'icashdr_home' =>
+                        array( 'draixp02s_aix1',
+                        'draixp14_aix1',
+                        'draixp15_aix1',
+			'draixp21_aix1',
+			'newdraixp02s_aix1' ),
+
+                'psdr_home' =>
+                        array( 'draixp06_aix1',
+                        'draixp07_aix1',
+                        'draixp19_aix1' ),
+
+		'physdr_home' => 
+			array( '02069737E_pseries1',
+			'031035C1H_pseries1',
+			'031036B1H_pseries1',
+			'03104EFFH_pseries1' )
+
+		);
+
+
+$Reports = array( 'aix1' => 'aixbase' , 'bag1' => 'bags' , 'pseries1' => 'lpar' );
+
+?>

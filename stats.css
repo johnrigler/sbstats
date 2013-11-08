@@ -1,0 +1,83 @@
+img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+   }
+
+p.controls {
+	text-align: center;	
+	
+	}
+
+p {margin-left: 20px}
+
+
+body {background-color: #445544;color: black }
+
+
+a {
+        font-weight: bold;
+        text-decoration: none;
+        color: #000;
+}
+
+a:hover {
+        text-decoration: underline;
+        color: #000;
+
+}
+
+a:visited {
+        color: #000;
+}
+
+
+a.menu,a.menucurr {
+        font-weight: bold;
+        text-decoration: none;
+}
+
+a.menu {
+        color: #78a;
+}
+
+a.thispage {
+	color: #aa0022;
+}
+
+div.thispage {
+	color: #aa0022;
+}
+
+a.menu:hover {
+        text-decoration: underline;
+        color: #9ae;
+}
+
+a.menu,a.menucurr:visited {
+        color: #78a;
+}
+
+a.menucurr:hover {
+        text-decoration: underline;
+        color: #9ae;
+
+td {
+	background: white;	
+	}
+
+
+pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+ padding: 1em;
+ border: 1px dashed #2f6fab;
+ color: black;
+ background-color: #f9f9f9;
+ line-height: 1.1em;
+}
+
+

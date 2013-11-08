@@ -1,0 +1,211 @@
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="http://nad0019linux01/style.css">
+</head>
+
+<div class=topframe>
+    <div class=shortspacing style='float:left'>
+  <div class=shortredbox>
+        <a href=/ style=color:white> home  </a>
+  </div>
+
+</div>
+    <div class=shortspacing style='float:left'>
+  <div class=shortredbox> 
+	<a href=/stats style=color:white> statistics </a>	
+  </div>
+</div>
+</div>
+
+<div class=bigframe>
+
+<?
+
+$date = getdate();
+$week = date("W");
+$year = $date[year];
+$month = $date[mon];
+$day = $date[mday];
+$ymd = date("Ymd");
+
+?>
+<table border=1><tr><td>
+<h1> Production Servers </h1>
+
+<table border=0>
+	<th colspan=3> Individual Partitions by Business Line</th>
+        <tr>
+	  <td><a href = graphset.php?set=icash_home&ymd=<? echo "$ymd"; ?>&granularity=05 > iCash and AppWorx Daily ( includes Bag Info ) </a>
+	</tr>
+
+        <tr>
+          <td><a href = graphset.php?set=hrhyper_home&ymd=<? echo "$ymd"; ?>&granularity=05 > HR and old Hyperion </a>
+        </tr>
+
+        <tr>
+          <td><a href = graphset.php?set=otherhr_home&ymd=<? echo "$ymd"; ?>&granularity=05 > Kronos, ImageNow, Hyperion 9 </a>
+        </tr>
+
+        <tr>
+          <td><a href = graphset.php?set=admin_home&ymd=<? echo "$ymd"; ?>&granularity=05 > Administration </a>
+        </tr>
+
+
+        <tr>
+	  <td><a href = graphset.php?set=finance_home&ymd=<? echo "$ymd"; ?>&granularity=05 > Finance Daily </a>
+	</tr>
+</table>
+
+<br>
+<br>
+
+<table border=0>
+        <th colspan=3> Consolidated by Machine Group</th>
+        <tr>
+          <td><a href = graphset.php?set=p5oldprod_home&ymd=<? echo "$ymd"; ?>&granularity=05 > Power5 Legacy  </a>
+	</tr>
+          <td><a href = graphset.php?set=p5prod_home&ymd=<? echo "$ymd"; ?>&granularity=05 > Power5 </a>
+	</tr>
+	  <td><a href = graphset.php?set=p6prod_home&ymd=<? echo "$ymd"; ?>&granularity=05 > Power6 </a>
+	</tr>
+</table>
+
+<h1> Development Servers </h1>
+
+<table border=0>
+        <th colspan=3> Individual Partitions by Business Line</th>
+        <tr>
+          <td><a href = graphset.php?set=icashdev_home&ymd=<? echo "$ymd"; ?>&granularity=05 > iCash and AppWorx </a>
+        </tr>
+
+        <tr>
+          <td><a href = graphset.php?set=hrhyperdev_home&ymd=<? echo "$ymd"; ?>&granularity=05 > HR and old Hyperion </a>
+        </tr>
+
+        <tr>
+          <td><a href = graphset.php?set=otherhrdev_home&ymd=<? echo "$ymd"; ?>&granularity=05 > Kronos, ImageNow, Hyperion 9 </a>
+        </tr>
+
+        <tr>
+          <td><a href = graphset.php?set=hr9dev_home&ymd=<? echo "$ymd"; ?>&granularity=05 > New HR 9 </a>
+        </tr>
+
+
+        <tr>
+          <td><a href = graphset.php?set=admindev_home&ymd=<? echo "$ymd"; ?>&granularity=05 > Administration </a>
+        </tr>
+
+
+        <tr>
+          <td><a href = graphset.php?set=financedev_home&ymd=<? echo "$ymd"; ?>&granularity=05 > Finance Daily </a>
+        </tr>
+</table>
+
+<br>
+<br>
+
+<table border=0>
+        <th colspan=3> Consolidated by Machine Group</th>
+        <tr>
+          <td><a href = graphset.php?set=dev_home&ymd=<? echo "$ymd"; ?>&granularity=05 > Development Servers </a>
+        </tr>
+</table>
+
+<br>
+<br>
+<h1> Disaster Recovery Servers </h1>
+
+<table border=0>
+        <th colspan=3> Individual Partitions by Business Line</th>
+        <tr>
+          <td><a href = graphset.php?set=icashdr_home&ymd=<? echo "$ymd"; ?>&granularity=05 > iCash and AppWorx </a>
+        </tr>
+
+        <tr>
+          <td><a href = graphset.php?set=psdr_home&ymd=<? echo "$ymd"; ?>&granularity=05 > HR and old Hyperion </a>
+        </tr>
+
+</table>
+
+<table border=0>
+        <th colspan=3> Consolidated Physical Servers</th>
+        <tr>
+          <td><a href = graphset.php?set=physdr_home&ymd=<? echo "$ymd"; ?>&granularity=05 > Physical Servers </a>
+        </tr>
+</table>
+
+<td valign=top>
+
+<?
+
+$dirname = "/buxs/sbstats2/2010";
+$dir = opendir($dirname);
+
+$foundnext = "false";
+
+$physical = array();
+
+while(false != ($file = readdir($dir)))
+{
+
+if ( substr($file,0,11) == "nad0019aixp" )
+  {
+	echo "<br><a href=singlegraph.php?ymd=$ymd&granularity=05&stream=$file" . "_aixbase&report=aix1> $file</a>";
+        echo "<a href=singlegraph.php?week=$year-W$week&stream=$file" . "_aixbase&report=aix1> W </a>";
+
+  }
+}
+
+rewinddir($dir);
+
+echo "<td valign=top>";
+
+while(false != ($file = readdir($dir)))
+{
+
+if ( substr($file,0,11) == "nad0019aixd" )
+  {
+	echo "<br><a href=singlegraph.php?ymd=$ymd&granularity=05&stream=$file" . "_aixbase&report=aix1> $file</a>";
+        echo "<a href=graph.php?week=2010-W$week&stream=$file" . "_aixbase&report=aix1> W </a>";
+  }
+}
+
+rewinddir($dir);
+
+echo "<td valign=top>";
+
+while(false != ($file = readdir($dir)))
+{
+if ( substr($file,0,10) == "nad0019vio" )
+  {
+	echo "<br><a href=singlegraph.php?ymd=$ymd&granularity=05&stream=$file" . "_aixbase&report=aix1> $file</a>";
+        echo "<a href=graph.php?week=2010-W$week&stream=$file" . "_aixbase&report=aix1> W </a>";
+
+  }
+}
+
+rewinddir($dir);
+
+echo "<td valign=top>";
+
+while(false != ($file = readdir($dir)))
+{
+if ( substr($file,0,2) == "dr" )
+  {
+	echo "<br><a href=singlegraph.php?ymd=$ymd&granularity=05&stream=$file" . "_aixbase&report=aix1> $file</a>";
+        echo "<a href=graph.php?week=2010-W$week&stream=$file" . "_aixbase&report=aix1> W </a>";
+
+  }
+}
+
+
+?>
+
+
+
+</tr></table>
+
+</div>
+</html>
+
