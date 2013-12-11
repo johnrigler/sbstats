@@ -3,6 +3,11 @@
 
 session_start();
 
+$match = $_GET[match];
+$Data = $_SESSION[$match];
+
+print_r($Data);
+
 function ReversePrettyDay ( $Day ) {
 
 if($Day == "Sun")$Day = 1;

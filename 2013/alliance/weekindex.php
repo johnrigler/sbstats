@@ -8,18 +8,23 @@ session_start();
 
 $report = $_GET['report'];
 
+$report = "vmstat";
 
-function ShowWeek($report,$host,$year,$week)
-  {
-  $count = 0;
 
-  foreach(ExpandArray(LoadMultiDayArray($host,$year,$week)) as $Element)
-        {
-        $index = $week . "-" . $count++;
-        $_SESSION[$index] = $Element;
-        }
+function ShowWeeks($report,$host,$weeks)
+{
+  foreach($weeks as $year => $week)
+    foreach($week as $weekno => $Element)
+      {
+      $index = $year . "-" . $weekno;
+      $_SESSION[$index] = $Element;
+      echo  "<br><a href=dashboardwrapper.php?host=$host&report=$report&match=$index&debug=yes >$index</a>\n";
+      }
+
+//	print_r($_SESSION);
+
 //  echo "<br><a href=dashboardwrapper.php?host=$host&report=$report><img src=dashboardweek.php?id=$week&report=$report ></a>";
-
+/*
   echo "<br><a href=dashboardwrapper.php?host=$host&report=vmstat1><img src=dashboardweek.php?id=$week&report=vmstat1 ></a>";
   echo "<br><a href=dashboardwrapper.php?host=$host&report=vmstat2><img src=dashboardweek.php?id=$week&report=vmstat2 ></a>";
   echo "<br><a href=dashboardwrapper.php?host=$host&report=vmstat3><img src=dashboardweek.php?id=$week&report=vmstat3 ></a>";
@@ -28,32 +33,52 @@ function ShowWeek($report,$host,$year,$week)
 
 
     echo "<br><a href=dashboardweek.php?id=$week&host=$host&debug=yes&report=$report>$week </a>";
-
+*/
   };
 
 $host = $_GET['host'];
+$host = "unixp21";
 
 
 $dir = opendir("$host");
 //    opendir("alliance");
 
+$weeks = array();
+$temp = array();
+
+$count = 0;
+
 while(false != ($file = readdir($dir)))
 {
-if($file == ".")continue;
-if($file == "..")continue;
 
-if("$host/$file")
+if(strstr($file,".sbstats"))
    {
-   $val = substr($file,8,2);
-   $weeks[$val] = "W-$val";
-    
+   $temp[$count] = $file;
+   $count++;
    }
 }
 
-asort($weeks);
+sort($temp);
 
- 
-foreach ( $weeks as $Week)
-	ShowWeek($report,$host,'2013',$Week);
+foreach($temp as $file)
+{
 
+
+   $year = substr($file,0,4);
+   $month = substr($file,4,2);
+   $day = substr($file,6,2);
+   $week = date("W", mktime(0, 0, 0, $month, $day, $year));
+   $dayno = date("w", mktime(0, 0, 0, $month, $day, $year));
+   if($dayno == 0)$dayno = 7;
+   $weeks[$year][$week][$dayno] = $file;
+
+//   echo "<br>$host/$file $year $month $day $week $dayno";
+}
+
+
+//sort($weeks);
+
+
+ExpandArray($weeks);
+ShowWeeks($report,$host,$weeks);
 ?>

@@ -1,9 +1,16 @@
+<? session_start(); ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
+<? $format=$_GET['format'];
+
+ ?>
+
 <html>
-<? $format=$_GET['format']; ?>
 
 <head>
  <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+
 <? if ($format !="htmldoc")
 	{
 	echo ' <title>Secret Beach Solutions</title>
@@ -24,6 +31,8 @@ if ($format =="htmldoc")
 
 $host=$_GET['host'];
 
+$match = $_GET[match];
+$Data = $_SESSION[$match];
 
 ?>
 
@@ -36,55 +45,13 @@ if($format != "htmldoc")
 
 // map this directory
 
-$dir = opendir("$host");
 
-while(false != ($file = readdir($dir))) 
-{
-if($file == "images")continue;
-if($file == "sbreports")continue;
-if($file == "cgi-bin")continue;
-if($file == ".")continue;
-if($file == "..")continue;
 
-echo "<br>$file";
 
-$files [] = $file;
-}
+echo "<br>xxxxxx $match";
 
-sort($files);
+print_r($Data);
 
-foreach($files as $file)
-{
-
-if(is_dir($file) == 1)$dirs [] = $file;
-if(is_file($file) == 1)
-  if(is_numeric($file[0]))
-    {
-    $files [] = $file;
-    $sections[$file[0]] []= $file;
-    }
-
-}
-
-// Read the format 
-
-$format=($_GET[format]);
-
-// figure out what page this is. 
-
-$thispage=($_GET[page]);
-
-if (! $thispage)$thispage=1;
-
-if($thispage==1)
-   {
-   $nextpage = 2;
-   }
-   else
-   {
-   $nextpage = $thispage + 1;
-   $prevpage = $thispage - 1;
-   }
 
 // Draw out the path
 
@@ -99,7 +66,6 @@ if ($cwd[1] == ":")
 	{
 	$path = explode('/',substr($cwd,$length));
 	}
-
 
 if($format != "htmldoc")
 {
@@ -204,10 +170,7 @@ if($sections[$nextpage])
 ?>
 
 <!-- End Forward/Back Choices -->
-
-
   <!-- Begin Body -->
-
 
 <?
 
@@ -239,11 +202,8 @@ foreach ($sections[$thispage] as $file)
 </div>
 ";
    }
-
-
   }
  }
-
 
 ?>
    </div>

@@ -1,0 +1,20 @@
+
+let COUNT=1
+ls $1 | sort | while read NAME
+	do
+	echo "xxxxxxxxxxxxxxxxxxxxxx"
+	YMD=`echo $NAME | sed 's/_/ /g' | awk '{ print $1 }'`
+        HOST=`echo $NAME | sed 's/_/ /g' | awk '{ print $3 }'`
+        REST=`echo $NAME | sed 's/_/ /g' | awk '{ print $4 }'`
+	SERIAL=`head -2 $1/$NAME | tail -1 | awk '{ print $2 }'`
+	echo "ymd = $YMD; host = $HOST ; REST = $REST ; SERIAL = $SERIAL"
+	NEWNAME=`echo "$YMD"CDT:"$SERIAL:UNDEF:$HOST:$REST"  | sed 's/aixbase/aix:vmstat/g'`
+ 	rm $NEWNAME	
+	grep -v pseries $1/$NAME | while read A B C
+		do
+		HH=`echo $A | cut -c 1-2`
+		MM=`echo $A | cut -c 3-4`
+		echo "$HH:$MM UNDEF $C" >> $NEWNAME
+		done
+	let COUNT=COUNT+1
+	done 

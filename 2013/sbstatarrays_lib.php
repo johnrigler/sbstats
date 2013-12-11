@@ -2,7 +2,7 @@
 
 include 'timedate_lib.php';
 
-function LoadMultiDayArray ( $Name,$Year,$Limit,$LimitDay = -1 ) {
+function LoadMultiDayArray ( $Name,$Year,$LimitDay = -1 ) {
 
 if (substr($Limit,0,1) == 'W')$Unit="Week";
 if (substr($Limit,0,1) == 'M')$Unit="Month";
@@ -63,12 +63,12 @@ function ExpandArray($Array)
 $Lambda = rand();
 $ThisArray = array();
 $FinalArray = array();
+static $blob;
 
-//echo "-------------------------------";
+$blob = LocalExpandArray($Lambda,$Array);
 
-$ThisArray = LocalExpandArray($Lambda,$Array);
 
-//print_r($ThisArray);
+$ThisArray = explode("\n",$blob);
 
 foreach($ThisArray as $Line)
 	{
@@ -78,8 +78,6 @@ foreach($ThisArray as $Line)
 	  if($Lambda == $ChildLambda)
 		$FinalArray[] .= $Rest;
 	}
-
-//print_r($FinalArray);
 
 return $FinalArray;
 
@@ -123,28 +121,29 @@ $ArrayName = ExpandArray($OriginalArray);
 static $ReturnArray = array();
 
 static $zero,$one,$two,$three;
+static $blob; 
 
 foreach($Array as $Key => $Value)
 	{  
-	if($Level == 0)
-	  {
-	  $zero = "$Key";
-	  $three = NULL;
-	  }
+	if($Level == 0)$zero = "$Key";
 	if($Level == 1)$one = "$Key";
 	if($Level == 2)$two = "$Key";
 	if($Level == 3)$three = "$Key";
 
-	if(!is_null($three))
-        	$ReturnArray[] .= "$Lambda:[$zero][$one][$two][$three] = '$Value';\n";
+	$tree = ""; 
+        if($zero)$tree = $tree . "[$zero]";
+	if($one)$tree = $tree . "[$one]";
+	if($two)$tree = $tree . "[$two]";
+	if($three)$tree = $tree . "[$three]";
+
+        if(!is_array($Value))
+        	$blob = $blob . sprintf("$Lambda:$tree = '$Value';\n"); 
 
 	if(is_array($Value))
-	   { 
-	   $ChildString .= LocalExpandArray($Lambda,$Value,$Level + 1); 
-	   }
+	   $ReturnArray .= LocalExpandArray($Lambda,$Value,$Level + 1); 
 	}
 
-return $ReturnArray; 
+return $blob;
 }
 
 function ArrayToFile( $Array, $ArrayName, $Filename) {
