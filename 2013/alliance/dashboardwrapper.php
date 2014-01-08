@@ -32,8 +32,15 @@ if ($format =="htmldoc")
 $host=$_GET['host'];
 
 $match = $_GET[match];
-$Data = $_SESSION[$match];
+$Data = $_SESSION[$host][$match];
+/*
+echo "<pre>";
 
+print_r($_SESSION);
+
+echo "</pre>";
+
+*/
 ?>
 
 <!-- Begin Menu Choices -->
@@ -45,12 +52,6 @@ if($format != "htmldoc")
 
 // map this directory
 
-
-
-
-echo "<br>xxxxxx $match";
-
-print_r($Data);
 
 
 // Draw out the path
@@ -90,13 +91,16 @@ foreach($path as $index => $directory)
 	$countup++;
 	}
 
-	echo " style=color:white> $directory</a> 
+	echo " style=color:white> $directory </a> 
     </div>
   </div>
 ";
 
-	if ($countup > 3)echo "</div><div class=contentsbox>";
+
+//	if ($countup > 3)echo "</div><div class=contentsbox>";
   } 
+        echo "<div class=shortspacing style='float:left'><div class=contentsbox>
+<a href=weekindex.php?host=$host style=color:white>$host</a></div></div>"; 
 }
 
 //echo "</div>";
@@ -139,37 +143,7 @@ if(count($dirs) > 0)
 
 <div style='border:none;background-color: transparent'>
 
-<? 
-if($format != "htmldoc")
-{
- if($sections[$prevpage])
-	$visibility="visible";
-	else
-	$visibility="hidden";
 
-	echo "<div class=shortspacing style='float:left;visibility: $visibility '>
-      <div class=contentsbox>
-    <a href=?page=$prevpage style='color:white'> Prev </a>
-      </div>
-   </div>";
-
-
-if($sections[$nextpage])
-        $visibility="visible";
-        else
-        $visibility="hidden";
-
-  echo "<div class=shortspacing style='border:none;float:left;visibility: $visibility '>
-      <div class=contentsbox style='border:none'>
-      <a href=?page=$nextpage style='color:white'> Next </a>
-      </div>
-   </div>
-</div>";
-}
-
-?>
-
-<!-- End Forward/Back Choices -->
   <!-- Begin Body -->
 
 <?
@@ -208,5 +182,25 @@ foreach ($sections[$thispage] as $file)
 ?>
    </div>
  </div>
+
+<?
+
+echo "<pre>";
+
+echo "<br>$match<br>";
+
+
+foreach($Data as $Day)
+	{
+	echo "<br><a href=populatearray.php?file=$host/$Day&report=base>$Day report=base</a>";
+	}
+
+
+echo "</pre>";
+
+?>
+
+
+
 </body>
 </html>

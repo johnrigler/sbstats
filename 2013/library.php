@@ -18,8 +18,8 @@ function DebugArray( $Name )
       foreach($Contents as $index => $value)
              {if(is_array($value))
                  {
-	          echo "<br>index = [$index]<br>"; 
- 	     print_r($value);
+	     //     echo "<br>index = [$index]<br>"; 
+ 	   //  print_r($value);
 	         DebugArray( "value" ); 
 	         }
              echo "<hr>[$index] = $value";
@@ -170,7 +170,7 @@ foreach ($Files as $File)
   $Count++;
 //  return $Array;
 //	print_r($Month_r);
-	print_r($Week_r);
+//	print_r($Week_r);
 return $Week_r;
      }
   }

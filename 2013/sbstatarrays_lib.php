@@ -146,6 +146,19 @@ foreach($Array as $Key => $Value)
 return $blob;
 }
 
+function ShowWeeks($report,$host,$weeks)
+{
+  foreach($weeks as $year => $week)
+    foreach($week as $weekno => $Element)
+      {
+      $index = $year . "-" . $weekno;
+      $_SESSION[$host][$index] = $Element;
+      echo  "<br><a href=dashboardwrapper.php?host=$host&report=$report&match=$index&debug=yes >$index</a>\n";
+      }
+
+  };
+
+
 function ArrayToFile( $Array, $ArrayName, $Filename) {
 
 print_r($Array);

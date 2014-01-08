@@ -1,4 +1,14 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<?
+
+include '../sbstatarrays_lib.php';
+
+session_start();
+session_destroy();
+session_start();
+
+$_SESSION[xxx] = "adfadfad";
+?>
+
 <html>
 <? $format=$_GET['format']; ?>
 
@@ -18,7 +28,6 @@ if ($format =="htmldoc")
 ?>
 
 </head>
-
 
 <?
 
@@ -169,7 +178,15 @@ if(count($dirs) > 0)
 
   </div>
   <div class=spacing>
-  <p><? if( file_exists("$subdir/desc.php"))include "$subdir/desc.php"; ?></p>
+  <p>
+
+<? 
+$_SESSION[host] = "$subdir";
+include "weekindex.php";
+//if( file_exists("$subdir/desc.php"))include "$subdir/desc.php"; 
+?>
+
+</p>
   <hr>
   <!-- End Table of Contents Entry -->
 
