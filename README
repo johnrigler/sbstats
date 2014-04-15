@@ -1,0 +1,1 @@
+I have been working on this code for years and started using git about six months ago.  This is my first attempt to integrate into github.  Currently my data files are stored in a directory sttructure with a .sbstats extension and are read by various php programs.  I have begun expermenting with passing information through session data.
