@@ -10,11 +10,11 @@ $report = $_GET['report'];
 
 $report = "vmstat";
 
-//echo "<pre>";
+echo "<pre>";
 
-//print_r($_SESSION);
+print_r($_SESSION);
 
-//echo "</pre>";
+echo "</pre>";
 
 
 $host = $_SESSION['host'];
@@ -54,10 +54,10 @@ foreach($temp as $file)
 
 ExpandArray($weeks);
 
-//echo "<pre>";
+echo "<pre>";
 
-//print_r($weeks);
+print_r($weeks);
 
-//echo "</pre>";
+echo "</pre>";
 ShowWeeks($report,$host,$weeks);
 ?>

@@ -1,1 +1,0 @@
-/var/www/stats/site-config.php

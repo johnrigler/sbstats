@@ -6,7 +6,6 @@ session_start();
 session_destroy();
 session_start();
 
-$_SESSION[xxx] = "adfadfad";
 ?>
 
 <html>
@@ -181,7 +180,7 @@ if(count($dirs) > 0)
   <p>
 
 <? 
-$_SESSION[host] = "$subdir";
+$_SESSION['host'] = $subdir;
 include "weekindex.php";
 //if( file_exists("$subdir/desc.php"))include "$subdir/desc.php"; 
 ?>

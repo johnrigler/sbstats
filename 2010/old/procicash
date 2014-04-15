@@ -1,2 +1,0 @@
-cd /buxs/sbstats2/2010
-ls icash/05 | while read A; do echo $A; to15min icash $A; done

@@ -5,7 +5,11 @@ include '/home/secrets/www/stats/2013/library.php';
 session_start();
 
 $FileName = "$_GET[file]";
-$ReportName = "$_GET[report]";
+//$ReportName = "$_GET[report]";
+
+$ReportNameArr = array();
+$ReportNameArr[0] = "base";
+$ReportNameArr[1] = "page";
 
 //// Define and Setup Visual Informaiton
 
@@ -50,16 +54,31 @@ $Report['sunos1']['sunos']['vmstat'][2] = "cpu-sy,cpu-us,cpu-wa";
 
 $Types['aix']['vmstat'][0] = "HH:MM";
 $Types['aix']['vmstat'][1] = "LCPU:MEM-MB";
-$Types['aix']['vmstat'][2] = "kth-r,kth-b,memory-avm,memory-fre,page-re,page-pi,page-po,page-fr,page-sr,page-cy,faults-in,faults-sy,faults-cs,cpu-us,cpu-sy,cpu-id,cpu-wa,skip,cpu-pc,skip,cpu-ec";
+$Types['aix']['vmstat'][2] = "kth-r,kth-b,mem-avm,mem-fre,page-re,page-pi,page-po,page-fr,page-sr,page-cy,flts-in,flts-sy,flts-cs,cpu-us,cpu-sy,cpu-id,cpu-wa,skip,cpu-pc,skip,cpu-ec";
 
-$Report['base']['aix']['vmstat'][0] = "HH:MM";
-$Report['base']['aix']['vmstat'][2]['cpu-sy'] = array(0, 66, 132);
-$Report['base']['aix']['vmstat'][2]['cpu-us'] = array(255,   66,   8);
-$Report['base']['aix']['vmstat'][2]['cpu-wa'] = array(255, 214,   33);
+$Report['cpu']['aix']['vmstat'][0] = "HH:MM";
+$Report['cpu']['aix']['vmstat'][2]['cpu-sy'] = array(0, 66, 132);
+$Report['cpu']['aix']['vmstat'][2]['cpu-us'] = array(255,   66,   8);
+$Report['cpu']['aix']['vmstat'][2]['cpu-wa'] = array(255, 214,   33);
+$Report['cpu']['aix']['vmstat'][3] = array(1);
+
+$Report['faults']['aix']['vmstat'][0] = "HH:MM";
+$Report['faults']['aix']['vmstat'][2]['flts-in'] = array(0, 66, 132);
+$Report['faults']['aix']['vmstat'][2]['flts-sy'] = array(255,   66,   8);
+$Report['faults']['aix']['vmstat'][2]['flts-cs'] = array(255, 214,   33);
+$Report['faults']['aix']['vmstat'][3] = array(.0005);
+
 
 $Report['page']['aix']['vmstat'][0] = "HH:MM";
-$Report['page']['aix']['vmstat'][2]['page-pi'] = array(0, 66, 132);
-$Report['page']['aix']['vmstat'][2]['page-po'] = array(255,   66,   8);
+$Report['page']['aix']['vmstat'][2]['page-pi'] = array(20, 66, 100);
+$Report['page']['aix']['vmstat'][2]['page-po'] = array(205,   120,   8);
+$Report['page']['aix']['vmstat'][3] = array(1);
+
+$Report['memory']['aix']['vmstat'][0] = "HH:MM";
+$Report['memory']['aix']['vmstat'][2]['mem-avm'] = array(33, 66, 132);
+$Report['memory']['aix']['vmstat'][2]['mem-fre'] = array(255,   66,   68);
+$Report['memory']['aix']['vmstat'][3] = array(.00002);
+
 
 $Graph['daily']['frame'] = array(930,170);
 $Graph['daily']['innerframe'] = array(40,140,902,40);
@@ -94,71 +113,45 @@ foreach($dirFiles as $file)
 	$basename = explode("/",$file);
         $day = substr($file,10,1);
   //      $dirDays[$day] = $file;
-        list( $date,$serial,$machinedesc,$host,$type,$report) = explode(":",$basename[1]);
+        list( $date,$serial,$machinedesc,$host,$type,$source) = explode(":",$basename[1]);
 //	echo "$type,$report";
-        $temp = explode(".",$report);
-        $report = $temp[0];
-
-	$Titles = explode(",",$Types[$type][$report][2]);
+        $temp = explode(".",$source);
+        $source = $temp[0];
 
 
-foreach($Report as $Index => $ThisReport)
-        foreach($ThisReport as $ThisType => $ThisReport)
-                foreach($ThisReport as $ThisReportName => $ThisReport)
-                if($Index == $ReportName)
-                  if($ThisType == $type)
-                   {
-                    if($ThisReportName == $report)
-                        {
-        //                $criteria = explode(",",$ThisReport[2]);
-			$criteria = $ThisReport[2];
-                        }
-                }
+	$Titles = explode(",",$Types[$type][$source][2]);
 
 
         if(($handle = fopen($file, "r")) !== FALSE)
         {
         while (($data = fgetcsv($handle, 1000, " ")) !== FALSE)
                 {
-                $key = substr($data[0],0,2) . substr($data[0],3,2);
+                $hhmm = substr($data[0],0,2) . substr($data[0],3,2);
 		$datum = explode(",",$data[2]);
 		foreach($datum as $key2 => $item)
-			{
-			$criteriacount = count($criteria);
-			if(array_key_exists($Titles[$key2],$criteria))
-			    { 
-//			    $ReportPos = array_search($Titles[$key2],$criteria);
-		       //     $TempArray[$ReportPos][$Titles[$key2]] = $item;
-				$TempArray[$Titles[$key2]] = $item;
-			    }
-
-                       $actualcount = count($TempArray);
-			if($criteriacount==$actualcount)
-			   {
-	//			print_r($TempArray);
-	//			ksort($TempArray);
-			   foreach($TempArray as $Key => $Item)
-			    //foreach($TempArrayitem as $Key => $Item)
-				$Target[$host][$date][$serial][$ReportName][$key][$Key] = $Item;
-		           }
-			}
+				$Target[$host][$date][$serial][$hhmm][$Titles[$key2]] = $item;
 
                 }
         fclose($handle);
         }
-    }
+  //  }
+}
 
 //echo "<pre>";
 
+$_SESSION['report'] = $Report;
 $_SESSION['key'] = $criteria;
 $_SESSION['dimension'] = $Graph['daily'];
 $_SESSION['data'] = $Target;
 
-echo "<br><img src=sessiongraph.php>";
-echo "<br><img src=sessiongraph.php>";
-echo "<br><img src=sessiongraph.php>";
+echo "<a href=sessiongraph.php?report=memory&type=$type&source=$source> aaaa </a>";
+
+echo "<br><img src=sessiongraph.php?report=cpu&type=$type&source=$source>";
+echo "<br><img src=sessiongraph.php?report=page&type=$type&source=$source>";
+echo "<br><img src=sessiongraph.php?report=memory&type=$type&source=$source>";
+echo "<br><img src=sessiongraph.php?report=faults&type=$type&source=$source>";
 
 
-print_r($_SESSION['data']);
+//print_r($Target);
 echo "</pre>";
 ?>

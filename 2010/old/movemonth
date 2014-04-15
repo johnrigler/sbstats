@@ -1,4 +1,0 @@
-mkdir -p /var/www/stats/2010/month/$1/$2
-ln -s /var/www/stats/2010/month/childindex.php /var/www/stats/2010/month/$1/$2/index.php
-ln -s /var/www/stats/2010/month/graph.php /var/www/stats/2010/month/$1/$2/graph.php
-mv $3 /var/www/stats/2010/month/$1/$2/
