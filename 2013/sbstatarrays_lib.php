@@ -152,8 +152,9 @@ function ShowWeeks($report,$host,$weeks)
     foreach($week as $weekno => $Element)
       {
       $index = $year . "-" . $weekno;
-      $_SESSION[$host][$index] = $Element;
-      echo  "<br><a href=dashboardwrapper.php?host=$host&report=$report&match=$index&debug=yes >$index</a>\n";
+      foreach($Element as $name => $Days);
+      	$_SESSION['W'][$index][$name]['D'] = $Days;
+      echo  "<br><a href=server-week.php?host=$host&report=$report&match=$index&debug=yes >$index</a>\n";
       }
 
   };

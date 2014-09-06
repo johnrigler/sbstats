@@ -137,6 +137,8 @@ if (($handle = fopen("$FileName", "r")) !== FALSE)
     fclose($handle);
     }
 
+//print_r($oneday);
+
 list($Class,$Subclass,$Data) = explode(" ",$header);
 
 $reverseheader = array_reverse($header);
@@ -164,8 +166,8 @@ else
   $MyFacts = $Header;	
   }
 
-DebugArray("Header");
-DebugArray("oneday");
+//DebugArray("Header");
+//DebugArray("oneday");
 
 $Title = PrettyName($FileName);
 
@@ -184,7 +186,7 @@ $PageHeight = $GridHeight * $UnitHeight + 140;
 
 $img = imagecreatetruecolor(1120, $PageHeight);
 
-DebugArray("MyFacts");
+//DebugArray("MyFacts");
 
 include '/home/secrets/www/stats/2010/colors.php';
 

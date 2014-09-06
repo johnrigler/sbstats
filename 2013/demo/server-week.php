@@ -4,6 +4,25 @@
 
 <? $format=$_GET['format'];
 
+function PrettyDay( $Day ) {
+
+if($Day == 1)$Day = "Sun";
+if($Day == 2)$Day = "Mon";
+if($Day == 3)$Day = "Tue";
+if($Day == 4)$Day = "Wed";
+if($Day == 5)$Day = "Thu";
+if($Day == 6)$Day = "Fri";
+if($Day == 7)$Day = "Sat";
+
+return $Day;
+
+}
+
+
+
+
+
+
  ?>
 
 <html>
@@ -29,18 +48,13 @@ if ($format =="htmldoc")
 
 <?
 
-$host=$_GET['host'];
+$host=$_REQUEST['host'];
 
-$match = $_GET[match];
-$Data = $_SESSION[$host][$match];
-/*
-echo "<pre>";
+$match = $_GET['match'];
+$Data = $_SESSION['W'][$match][$host];
+unset($_SESSION['W']);
+$_SESSION['W'][$match][$host] = $Data;
 
-print_r($_SESSION);
-
-echo "</pre>";
-
-*/
 ?>
 
 <!-- Begin Menu Choices -->
@@ -100,7 +114,7 @@ foreach($path as $index => $directory)
 //	if ($countup > 3)echo "</div><div class=contentsbox>";
   } 
         echo "<div class=shortspacing style='float:left'><div class=contentsbox>
-<a href=weekindex.php?host=$host style=color:white>$host</a></div></div>"; 
+$host</div></div>"; 
 }
 
 //echo "</div>";
@@ -126,7 +140,7 @@ if(count($dirs) > 0)
 ?>
   <!-- Begin Table of Contents Entry -->
   <div class=shortspacing>
-    <div class=contentsbox><a style='color:white' href=<? echo "weekindex.php?host=$subdir > $subdir"; ?></a></div>
+    <div class=contentsbox> <? echo "$subdir"; ?> </a></div>
 
   </div>
   <div class=spacing>
@@ -189,14 +203,21 @@ echo "<pre>";
 
 echo "<br>$match<br>";
 
-
-foreach($Data as $Day)
+foreach($Data['D'] as $Index => $Day)
 	{
-	echo "<br><a href=populatearray.php?file=$host/$Day&report=base>$Day report=base</a>";
+	$Name = PrettyDay($Index); 
+	echo "<br>$Index <a href=server-day.php?day=$Index&report=base>$Name</a>";
 	}
 
 
 echo "</pre>";
+
+echo "<pre>";
+
+print_r($Data);
+
+echo "</pre>";
+
 
 ?>
 

@@ -1,6 +1,6 @@
 <?
 
-include '/home/secrets/www/stats/2013/library.php';
+//include '/home/secrets/www/stats/2013/library.php';
 
 session_start();
 
@@ -144,7 +144,7 @@ $_SESSION['key'] = $criteria;
 $_SESSION['dimension'] = $Graph['daily'];
 $_SESSION['data'] = $Target;
 
-echo "<a href=sessiongraph.php?report=memory&type=$type&source=$source> aaaa </a>";
+//echo "<a href=sessiongraph.php?report=memory&type=$type&source=$source> aaaa </a>";
 
 echo "<br><img src=sessiongraph.php?report=cpu&type=$type&source=$source>";
 echo "<br><img src=sessiongraph.php?report=page&type=$type&source=$source>";

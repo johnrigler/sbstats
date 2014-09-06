@@ -2,6 +2,39 @@
 
 //include 'jExpandlib.php';
 
+$Types = array();
+$Report = array();
+
+$Types['aix']['vmstat'][0] = "HH:MM";
+$Types['aix']['vmstat'][1] = "LCPU:MEM-MB";
+$Types['aix']['vmstat'][2] = "kth-r,kth-b,memory-avm,memory-fre,page-re,page-pi,page-po,page-fr,page-sr,page-cy,faults-in,faults-sy,faults-cs,cpu-us,cpu-sy,cpu-id,cpu-wa,skip,cpu-pc,skip,cpu-ec";
+
+$Report['aix1']['sunos']['aix'][0] = "HH:MM";
+$Report['aix1']['sunos']['aix'][2] = "cpu-sy,cpu-us,cpu-wa";
+
+
+$Types['sunos']['vmstat'][0] = "HH:MM";
+$Types['sunos']['vmstat'][1] = "LCPU:MEM-MB";
+$Types['sunos']['vmstat'][2] = "kth-r,kth-b,memory-avm,memory-fre,page-re,page-pi,page-po,page-fr,page-sr,page-cy,faults-in,faults-sy,faults-cs,cpu-us,cpu-sy,cpu-id,cpu-wa,skip,cpu-pc,skip,cpu-ec";
+
+
+$Report['base']['aix']['vmstat'][0] = "HH:MM";
+$Report['base']['aix']['vmstat'][2] = "cpu-sy,cpu-us,cpu-wa";
+
+$Report['page']['aix']['vmstat'][0] = "HH:MM";
+$Report['page']['aix']['vmstat'][2] = "page-re,page-pi,page-po,page-fr,page-sr,page-cy";
+
+
+$Types['sunos']['vmstat'][0] = "HH:MM";
+$Types['sunos']['vmstat'][1] = "LCPU:MEM-MB";
+$Types['sunos']['vmstat'][2] = "kth-r,kth-b,kth-w,memory-swap,memory-free,page-re,page-mf,page-pi,page-po,page-fr,page-de,page-sr,disk-mo,disk-m1,disk-m5,disk-m6,faults-in,faults-sy,faults-cs,cpu-us,cpu-sy,cpu-id";
+
+$Report['base']['sunos']['vmstat'][0] = "HH:MM";
+$Report['base']['sunos']['vmstat'][2] = "cpu-sy,cpu-us";
+
+$Types['sco']['vmstat'][0] = "HH:MM";
+$Types['sco']['vmstat'][2] = 'procs-r,procs-b,procs-w,paging-frs,paging-dmd,paging-sw,paging-cch,paging-fil,paging-pft,paging-frp,paging-pos,paging-pif,paging-pis,paging-rso,paging-rsi,system-sy,system-cs,cpu-us,cpu-su,cpu-id';
+
 function DebugArray( $Name )
   {
   global $_GET;

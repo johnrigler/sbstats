@@ -6,6 +6,48 @@ session_start();
 session_destroy();
 session_start();
 
+function WeekIndex($host)
+
+{
+
+$report = $_GET['report'];
+$report = "vmstat";
+//$host = $_SESSION['host'];
+$dir = opendir("$host");
+$weeks = array();
+$temp = array();
+
+$count = 0;
+
+while(false != ($file = readdir($dir)))
+{
+
+if(strstr($file,".sbstats"))
+   {
+   $temp[$count] = $file;
+   $count++;
+   }
+}
+
+sort($temp);
+
+foreach($temp as $file)
+{
+   $year = substr($file,0,4);
+   $month = substr($file,4,2);
+   $day = substr($file,6,2);
+   $week = date("W", mktime(0, 0, 0, $month, $day, $year));
+   $dayno = date("w", mktime(0, 0, 0, $month, $day, $year));
+   if($dayno == 0)$dayno = 7;
+   $weeks[$year][$week][$host][$dayno] = $file;
+}
+
+ShowWeeks("report",$host,$weeks);
+
+
+};
+
+
 ?>
 
 <html>
@@ -173,15 +215,18 @@ if(count($dirs) > 0)
 ?>
   <!-- Begin Table of Contents Entry -->
   <div class=shortspacing>
-    <div class=contentsbox><a style='color:white' href=<? echo "weekindex.php?host=$subdir > $subdir"; ?></a></div>
+    <div class=contentsbox style='color:white'> <? echo "$subdir"; ?></div>
 
   </div>
   <div class=spacing>
   <p>
 
 <? 
-$_SESSION['host'] = $subdir;
-include "weekindex.php";
+
+WeekIndex($subdir);
+
+
+
 //if( file_exists("$subdir/desc.php"))include "$subdir/desc.php"; 
 ?>
 
@@ -236,6 +281,8 @@ if($sections[$nextpage])
 
 <?
 
+
+
 //   }
 
 
@@ -268,9 +315,13 @@ foreach ($sections[$thispage] as $file)
 
   }
  }
-
 ?>
    </div>
  </div>
+<?
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
+?>
 </body>
 </html>

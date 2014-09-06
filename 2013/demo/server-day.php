@@ -1,11 +1,17 @@
 <? session_start(); ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<?
- $format=$_GET['format']; ?>
+
+
 <html>
+
 <head>
  <meta http-equiv="content-type" content="text/html;charset=UTF-8">
-<? if ($format !="htmldoc")
+
+<?
+
+include '/home/secrets/www/sbstats/2013/library.php';
+
+if ($format !="htmldoc")
 	{
 	echo ' <title>Secret Beach Solutions</title>
  		<link rel="stylesheet" type="text/css" href="/style.css">';
@@ -23,25 +29,13 @@ if ($format =="htmldoc")
 
 <?
 
-// Clear session information
+$dayno=$_REQUEST['day'];
 
-unset($_SESSION['host']);
-unset($_SESSION['W']);
+$report = $_REQUEST['report'];
+$Data = $_SESSION['W'];
 
-$search=$_GET['search'];
+//unset($_SESSION['W']);
 
- if($search)
- {
- exec("grep $search */*", $string);
- foreach ($string as $line)
-   {
-   list($file,$match) = explode(":",$line);
-   list($dir,$rest) = explode("/",$file);
-   list($page,$rest) = explode("-",$rest);
-   list($section,$rest) = explode(".",$rest);
-   echo "<Br> <a href=$dir/?page=$page> $match </a>";
-   }
- }
 
 ?>
 
@@ -54,53 +48,7 @@ if($format != "htmldoc")
 
 // map this directory
 
-$dir = opendir(".");
 
-while(false != ($file = readdir($dir))) 
-{
-if($file == "images")continue;
-if($file == "hide")continue;
-if($file == "cgi-bin")continue;
-if($file == ".")continue;
-if($file == "..")continue;
-
-$files [] = $file;
-}
-
-sort($files);
-
-foreach($files as $file)
-{
-
-if(is_dir($file) == 1)$dirs [] = $file;
-if(is_file($file) == 1)
-  if(is_numeric($file[0]))
-    {
-    $files [] = $file;
-    $sections[$file[0]] []= $file;
-    }
-
-}
-
-// Read the format 
-
-$format=($_GET[format]);
-
-// figure out what page this is. 
-
-$thispage=($_GET[page]);
-
-if (! $thispage)$thispage=1;
-
-if($thispage==1)
-   {
-   $nextpage = 2;
-   }
-   else
-   {
-   $nextpage = $thispage + 1;
-   $prevpage = $thispage - 1;
-   }
 
 // Draw out the path
 
@@ -129,7 +77,7 @@ foreach($path as $index => $directory)
   while($countup <= $index)
 	{
 	$trimmed = $urlpath[$countup];
-	echo $trimmed;
+	echo "$trimmed";
 	if($index == 0)
 		{ 
 		$urlpath[0] = "";
@@ -139,13 +87,16 @@ foreach($path as $index => $directory)
 	$countup++;
 	}
 
-	echo " style=color:white> $directory</a> 
+	echo " style=color:white> $directory </a> 
     </div>
   </div>
 ";
 
-	if ($countup > 3)echo "</div><div class=contentsbox>";
+
+//	if ($countup > 3)echo "</div><div class=contentsbox>";
   } 
+        echo "<div class=shortspacing style='float:left'><div class=contentsbox>
+<a href=weekindex.php?host=$host style=color:white>$host</a></div></div>"; 
 }
 
 //echo "</div>";
@@ -171,7 +122,7 @@ if(count($dirs) > 0)
 ?>
   <!-- Begin Table of Contents Entry -->
   <div class=shortspacing>
-    <div class=contentsbox><a style='color:white' href=<? echo "$subdir > $subdir"; ?></a></div>
+    <div class=contentsbox><a style='color:white' href=<? echo "weekindex.php?host=$subdir > $subdir"; ?></a></div>
 
   </div>
   <div class=spacing>
@@ -188,41 +139,8 @@ if(count($dirs) > 0)
 
 <div style='border:none;background-color: transparent'>
 
-<? 
-if($format != "htmldoc")
-{
- if($sections[$prevpage])
-	$visibility="visible";
-	else
-	$visibility="hidden";
-
-	echo "<div class=shortspacing style='float:left;visibility: $visibility '>
-      <div class=contentsbox>
-    <a href=?page=$prevpage style='color:white'> Prev </a>
-      </div>
-   </div>";
-
-
-if($sections[$nextpage])
-        $visibility="visible";
-        else
-        $visibility="hidden";
-
-  echo "<div class=shortspacing style='border:none;float:left;visibility: $visibility '>
-      <div class=contentsbox style='border:none'>
-      <a href=?page=$nextpage style='color:white'> Next </a>
-      </div>
-   </div>
-</div>";
-}
-
-?>
-
-<!-- End Forward/Back Choices -->
-
 
   <!-- Begin Body -->
-
 
 <?
 
@@ -254,17 +172,34 @@ foreach ($sections[$thispage] as $file)
 </div>
 ";
    }
-
-
   }
  }
-
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
 
 ?>
    </div>
  </div>
+
+<?
+
+echo "<pre>";
+
+foreach ($_SESSION as $WM => $rest)
+   foreach($rest as $YRW => $rest2)
+    foreach($rest2 as $Host => $data)
+     if($data['D'])
+      foreach($data['D'] as $day => $file)
+	if($dayno != $day)
+	  unset($_SESSION[$WM][$YRW][$Host]['D'][$day]);
+
+//print_r($_SESSION);
+
+echo "<br><img src=server-day-graph.php?report=base>";
+echo "<br><img src=server-day-graph.php?report=page>";
+echo "<br><img src=server-day-graph.php?report=memory>";
+
+?>
+
+
+
 </body>
 </html>

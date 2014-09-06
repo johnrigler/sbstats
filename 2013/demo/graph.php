@@ -1,28 +1,20 @@
 <?
 
-include '/home/secrets/www/stats/2013/library.php';
+session_start();
 
-$FileName = "$_GET[file]";
+include '/home/secrets/www/sbstats/2013/library.php';
+
+$FileName = "$_REQUEST[file]";
 
 //// Define and Setup Visual Informaiton
 
 // create a 200*200 image
 $img = imagecreatetruecolor(1000, 300);
 
-// allocate some colors
-$color = array();
-$color['cpu-us'] = imagecolorallocate($img, 0, 66, 132);
-$color['cpu-sy'] = imagecolorallocate($img, 255,   66,   8);
-$color['cpu-wa'] = imagecolorallocate($img, 255, 214,   33);
-$white = imagecolorallocate($img, 255,255,255);
-$frame = imagecolorallocate($img, 100,100,100);
-$background = imagecolorallocate($img,155,155,155);
-
 /// Fill and paint frame
 
 imagefilledrectangle($img, 0, 0, 1020, 300, $background);
 imagerectangle($img, 40,60, 902, 241, $frame);
-
 
 /////  Define Array Information
 
@@ -30,43 +22,7 @@ $Files = array();
 $Types = array();
 $Report = array();
 
-$Files[0] = "20130827342CDT:0306A00D2:4204000000-true-2-enable-PowerPC_POWER6:uxdrtgwdv1:aix:vmstat.sbstats";
 $Files[0] = $FileName;
-
-
-$Types['aix']['vmstat'][0] = "HH:MM";
-$Types['aix']['vmstat'][1] = "LCPU:MEM-MB";
-$Types['aix']['vmstat'][2] = "kth-r,kth-b,memory-avm,memory-fre,page-re,page-pi,page-po,page-fr,page-sr,page-cy,faults-in,faults-sy,faults-cs,cpu-us,cpu-sy,cpu-id,cpu-wa,skip,cpu-pc,skip,cpu-ec";
-
-$Report['aix1']['sunos']['aix'][0] = "HH:MM";
-$Report['aix1']['sunos']['aix'][2] = "cpu-sy,cpu-us,cpu-wa";
-
-
-$Types['sunos']['vmstat'][0] = "HH:MM";
-$Types['sunos']['vmstat'][1] = "LCPU:MEM-MB";
-$Types['sunos']['vmstat'][2] = "kth-r,kth-b,memory-avm,memory-fre,page-re,page-pi,page-po,page-fr,page-sr,page-cy,faults-in,faults-sy,faults-cs,cpu-us,cpu-sy,cpu-id,cpu-wa,skip,cpu-pc,skip,cpu-ec";
-
-$Report['sunos1']['sunos']['vmstat'][0] = "HH:MM";
-$Report['sunos1']['sunos']['vmstat'][2] = "cpu-sy,cpu-us,cpu-wa";
-
-
-$Types['aix']['vmstat'][0] = "HH:MM";
-$Types['aix']['vmstat'][1] = "LCPU:MEM-MB";
-$Types['aix']['vmstat'][2] = "kth-r,kth-b,memory-avm,memory-fre,page-re,page-pi,page-po,page-fr,page-sr,page-cy,faults-in,faults-sy,faults-cs,cpu-us,cpu-sy,cpu-id,cpu-wa,skip,cpu-pc,skip,cpu-ec";
-
-$Report['base']['aix']['vmstat'][0] = "HH:MM";
-$Report['base']['aix']['vmstat'][2] = "cpu-sy,cpu-us,cpu-wa";
-
-$Types['sunos']['vmstat'][0] = "HH:MM";
-$Types['sunos']['vmstat'][1] = "LCPU:MEM-MB";
-$Types['sunos']['vmstat'][2] = "kth-r,kth-b,kth-w,memory-swap,memory-free,page-re,page-mf,page-pi,page-po,page-fr,page-de,page-sr,disk-mo,disk-m1,disk-m5,disk-m6,faults-in,faults-sy,faults-cs,cpu-us,cpu-sy,cpu-id";
-
-$Report['base']['sunos']['vmstat'][0] = "HH:MM";
-$Report['base']['sunos']['vmstat'][2] = "cpu-sy,cpu-us";
-
-$Types['sco']['vmstat'][0] = "HH:MM";
-$Types['sco']['vmstat'][2] = 'procs-r,procs-b,procs-w,paging-frs,paging-dmd,paging-sw,paging-cch,paging-fil,paging-pft,paging-frp,paging-pos,paging-pif,paging-pis,paging-rso,paging-rsi,system-sy,system-cs,cpu-us,cpu-su,cpu-id';
-
 
 $rest = MultiDayArray( $Files , $Types , $Report['base'] );
 
@@ -75,7 +31,6 @@ $rest = MultiDayArray( $Files , $Types , $Report['base'] );
 $dirFiles[0] = $FileName;
 
 $Target = array();
-
 
 foreach($dirFiles as $file)
         {
@@ -106,29 +61,6 @@ foreach($dirFiles as $file)
         }
     }
 
-//echo "<pre>";
-//print_r($Target);
-//echo "</pre>";
-
-
-/*
-
-echo "
-
-  [20131012CDT] => Array
-             [0306A00D2] => Array
-                   [uxdrtgwdv1] => Array
-                     [aix] => Array
-                        [vmstat] => Array
-                            [00:00] => Array
-                                [cpu-us] => 7
-                                [cpu-sy] => 6
-                                [cpu-wa] => 0
-
-";
-
-*/
-
 $GraphBottom = 240;
 $BottomPoint = 0;
 $TopPoint = 0;
@@ -150,10 +82,9 @@ for($percent = 0; $percent <= 100; $percent = $percent + 10)
    ImageString($img, 3, $XAxis - 22, $GraphBottom - ($percent * 2), $percent,$frame);
    }	
 
-echo "<pre>";
-print_r($Target);
-echo "</pre>";
-
+//echo "<pre>";
+//print_r($Target);
+//echo "</pre>";
 
 foreach($Target as $hostname => $rest)
  foreach($rest as $date => $rest)

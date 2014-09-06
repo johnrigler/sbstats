@@ -6,17 +6,29 @@ session_start();
 
 // create a 200*200 image
 
-$frame = $_SESSION['dimension']['frame'];
+$Graph['daily']['frame'] = array(930,170);
+$Graph['daily']['innerframe'] = array(40,140,902,40);
+$Graph['daily']['unit'] = array(1,2);
+$Graph['daily']['space'] = array(0,0);
+$Graph['daily']['key'] = array(450,10);
+
+
+$_SESSION['dimension'] = $Graph['daily'];
+
+$frame = $Graph['daily']['frame'];
 $innerframe =  $_SESSION['dimension']['innerframe'];
 $unit =  $_SESSION['dimension']['unit'];
 $space =  $_SESSION['dimension']['space'];
 $dimensionkey = $_SESSION['dimension']['key'];
 $key = $_SESSION['key'];
 $data = $_SESSION['data'];
-$report = $_GET['report'];
+$report = $_REQUEST['report'];
 $type = $_GET['type'];
 $source = $_GET['source'];
 //echo "<pre>";
+
+if(empty($data))
+	echo "sdfsadfdsfsad";
 
 $criteria = $_SESSION['report'][$report][$type][$source][2];
 $scale = $_SESSION['report'][$report][$type][$source][3][0];
