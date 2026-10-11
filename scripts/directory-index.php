@@ -20,11 +20,11 @@ foreach(new DirectoryIterator($directory) as $entry){
 }
 natcasesort($folders);ksort($images,SORT_NATURAL);ksort($sources,SORT_NATURAL);ksort($files,SORT_NATURAL);
 if(preg_match('#^examples/solana/[0-9]{4}$#',$relative)){
-  try {
-    require_once __DIR__.'/solana-month-graph.php';
-    foreach(sbstatsSolanaMonths($directory) as $monthName)$images[$monthName]=$monthName;
-    ksort($images,SORT_NATURAL);
-  } catch(Throwable $e){$files['Month chart error']=$e->getMessage();}
+ try {
+  require_once __DIR__.'/solana-year-graph.php';
+  $images=[];
+  foreach(sbstatsSolanaYear($directory) as $filename)$images[$filename]=$filename;
+ }catch(Throwable $e){$files['Year graph error']=$e->getMessage();}
 }
 
 if(preg_match('#^examples/solana/[0-9]{4}/W[0-9]{2}$#',$relative) && is_file($directory.'/week.json')){
