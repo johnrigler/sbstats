@@ -3,7 +3,7 @@
 set -euo pipefail
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 HOST="127.0.0.1"
-PORT="8000"
+PORT="8001"
 INSTALL=0
 LEGACY=0
 for arg in "$@"; do
@@ -14,7 +14,7 @@ for arg in "$@"; do
     --port=*) PORT="${arg#*=}" ;;
     --help|-h)
       cat <<'EOF'
-Usage: bash scripts/php-serve.sh [--install] [--legacy] [--host=127.0.0.1] [--port=8000]
+Usage: bash scripts/php-serve.sh [--install] [--legacy] [--host=127.0.0.1] [--port=8001]
   --install  Install PHP CLI plus GD via apt, dnf or apk if missing.
              Requires appropriate privileges (sudo when available).
   --legacy   Enable browsing original 2013 PHP endpoints. WARNING: historical
