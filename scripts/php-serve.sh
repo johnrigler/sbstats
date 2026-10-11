@@ -53,10 +53,10 @@ if [[ "$LEGACY" == 1 ]]; then
     exit 2
   fi
   echo "Legacy PHP is enabled for local exploration; old scripts are not PHP 8 compatible."
-  echo "Legacy entry: http://$HOST:$PORT/2013/demo/index.php"
+  echo "Legacy entry: http://$HOST:$PORT/2010/"
 else
   echo "Legacy PHP endpoints blocked by default. Add --legacy only for local inspection."
 fi
-echo "PHP sample:   http://$HOST:$PORT/examples/php/"
+echo "Directory index: http://$HOST:$PORT/"\necho "2010 files:      http://$HOST:$PORT/2010/"\necho "PHP sample:      http://$HOST:$PORT/examples/php/"
 echo "Solana stats: http://$HOST:$PORT/examples/solana/"
-SBSTATS_LEGACY="$LEGACY" php -d short_open_tag=1 -S "$HOST:$PORT" -t "$ROOT" "$ROOT/scripts/php-router.php"
+SBSTATS_LEGACY="$LEGACY" php -d display_errors=1 -d log_errors=1 -d error_reporting=-1 -d short_open_tag=1 -S "$HOST:$PORT" -t "$ROOT" "$ROOT/scripts/php-router.php"
