@@ -15,15 +15,10 @@ $items = [];
 foreach (new DirectoryIterator($directory) as $entry) {
     if ($entry->isDot()) continue;
     $name = $entry->getFilename();
+    if (strtolower($name) === 'index.php') continue;
     if (str_starts_with($name, '.') || preg_match('/\.(?:pem|crt|key|tar|ext|int)$/i', $name)) continue;
     if ($name === 'keep') continue;
-    if ($entry->isLink()) {
-        // Show historical symlink index.php as the inherited directory view.
-        if ($name !== 'index.php') continue;
-        $items[] = ['name' => $name, 'dir' => false, 'size' => null,
-                    'time' => $entry->getMTime(), 'image' => false, 'stats' => false];
-        continue;
-    }
+    if ($entry->isLink()) continue;
     $items[] = ['name' => $name, 'dir' => $entry->isDir(), 'size' => $entry->isFile() ? $entry->getSize() : null,
                 'time' => $entry->getMTime(), 'stats' => $entry->isFile() && str_ends_with($name, '.sbstats'), 'image' => $entry->isFile() &&
                 preg_match('/\\.(?:png|jpe?g|gif|webp)$/i', $name) === 1 &&
