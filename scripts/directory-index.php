@@ -15,7 +15,7 @@ $items = [];
 foreach (new DirectoryIterator($directory) as $entry) {
     if ($entry->isDot()) continue;
     $name = $entry->getFilename();
-    if (str_starts_with($name, '.') || preg_match('/\.(?:pem|crt|key|tar|sbstats|ext|int)$/i', $name)) continue;
+    if (str_starts_with($name, '.') || preg_match('/\.(?:pem|crt|key|tar|ext|int)$/i', $name)) continue;
     if ($name === 'keep') continue;
     if ($entry->isLink()) {
         // Show historical symlink index.php as the inherited directory view.
