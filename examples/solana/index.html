@@ -21,7 +21,24 @@ async function show(){
     const s=w.subjects[token.value],url=base+s.chart;
     const a=node('a');a.href=url;a.title='Open SB Stats PNG';
     const img=node('img');img.alt='Sampled weekly activity, '+chosen.id+' for '+token.value;img.src=url;
-    img.onerror=()=>{a.replaceChildren(node('p','PNG not generated yet. Run python3 tools/render_sol_stats.py to create it.'));};
+    img.onerror=()=>{ // Static SVG fallback until a PNG is generated locally.
+      a.removeAttribute('href');a.title='Weekly data visualization';
+      const ns='http://www.w3.org/2000/svg', svg=document.createElementNS(ns,'svg');
+      svg.setAttribute('viewBox','0 0 720 250');svg.setAttribute('role','img');
+      svg.setAttribute('aria-label','Sampled daily signature counts for '+chosen.id);
+      const peak=Math.max(1,...s.points.map(p=>p.count));
+      const add=(tag,attrs,text)=>{const e=document.createElementNS(ns,tag);
+        for(const [k,v] of Object.entries(attrs))e.setAttribute(k,String(v));
+        if(text!==undefined)e.textContent=text;svg.append(e);return e;};
+      for(let i=0;i<4;i++)add('line',{x1:40,x2:698,y1:202-i*55,y2:202-i*55,stroke:'#dce3ec'});
+      for(let i=0;i<7;i++){
+        const row=s.points[i],x=65+i*90,h=Math.round(168*row.count/peak);
+        if(row.count)add('rect',{x,y:202-h,width:46,height:h,fill:token.value==='get-money'?'#24688f':'#585596'});
+        add('text',{x:x+23,y:Math.max(20,194-h),'text-anchor':'middle',fill:'#1c2b3c','font-size':16},String(row.count));
+        add('text',{x:x+23,y:229,'text-anchor':'middle',fill:'#566b80','font-size':13},['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i]);
+      }
+      a.replaceChildren(svg);
+    };
     a.append(img);graph.append(a);
     status.textContent=chosen.id+' / '+w.start+' to '+w.end+' / '+s.total+' sampled signatures';
     const table=node('table'),heading=node('tr');heading.append(node('th','UTC day'),node('th','Signatures'));table.append(heading);
