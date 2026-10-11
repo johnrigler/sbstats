@@ -11,6 +11,7 @@ function sbstatsSolanaCharts(string $directory): array {
     if (($week['schema']??'')!=='sbstats/week-v1' || !isset($week['subjects']))return [];
     $subjects=array_intersect_key($week['subjects'],array_flip(['get-money','purple-squirrel']));
     $charts=[];
+    $subjects=array_filter($subjects,static fn($s)=>array_sum(array_map(static fn($p)=>(int)($p['count']??0),$s['points']??[]))>0);
     foreach ($subjects as $token=>$series) {
         $file=$directory.'/'.$token.'-daily.png';
         if (!sbstatsSolanaFresh($file,$weekFile)) sbstatsSolanaPaint($file,$week,[$token=>$series]);
