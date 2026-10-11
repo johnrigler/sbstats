@@ -15,16 +15,8 @@
           "count": 6
         },
         {
-          "date": "2026-09-15",
-          "count": 0
-        },
-        {
           "date": "2026-09-16",
           "count": 1
-        },
-        {
-          "date": "2026-09-17",
-          "count": 0
         },
         {
           "date": "2026-09-18",
@@ -33,46 +25,13 @@
         {
           "date": "2026-09-19",
           "count": 1
-        },
-        {
-          "date": "2026-09-20",
-          "count": 0
         }
       ]
     },
     "purple-squirrel": {
       "total": 0,
       "chart": "purple-squirrel.png",
-      "points": [
-        {
-          "date": "2026-09-14",
-          "count": 0
-        },
-        {
-          "date": "2026-09-15",
-          "count": 0
-        },
-        {
-          "date": "2026-09-16",
-          "count": 0
-        },
-        {
-          "date": "2026-09-17",
-          "count": 0
-        },
-        {
-          "date": "2026-09-18",
-          "count": 0
-        },
-        {
-          "date": "2026-09-19",
-          "count": 0
-        },
-        {
-          "date": "2026-09-20",
-          "count": 0
-        }
-      ]
+      "points": []
     }
   },
   "commentary": "commentary.json"

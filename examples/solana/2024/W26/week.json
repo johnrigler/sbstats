@@ -9,61 +9,12 @@
     "get-money": {
       "total": 0,
       "chart": "get-money.png",
-      "points": [
-        {
-          "date": "2024-06-24",
-          "count": 0
-        },
-        {
-          "date": "2024-06-25",
-          "count": 0
-        },
-        {
-          "date": "2024-06-26",
-          "count": 0
-        },
-        {
-          "date": "2024-06-27",
-          "count": 0
-        },
-        {
-          "date": "2024-06-28",
-          "count": 0
-        },
-        {
-          "date": "2024-06-29",
-          "count": 0
-        },
-        {
-          "date": "2024-06-30",
-          "count": 0
-        }
-      ]
+      "points": []
     },
     "purple-squirrel": {
       "total": 24,
       "chart": "purple-squirrel.png",
       "points": [
-        {
-          "date": "2024-06-24",
-          "count": 0
-        },
-        {
-          "date": "2024-06-25",
-          "count": 0
-        },
-        {
-          "date": "2024-06-26",
-          "count": 0
-        },
-        {
-          "date": "2024-06-27",
-          "count": 0
-        },
-        {
-          "date": "2024-06-28",
-          "count": 0
-        },
         {
           "date": "2024-06-29",
           "count": 1

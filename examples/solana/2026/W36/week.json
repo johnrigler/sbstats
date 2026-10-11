@@ -11,18 +11,6 @@
       "chart": "get-money.png",
       "points": [
         {
-          "date": "2026-08-31",
-          "count": 0
-        },
-        {
-          "date": "2026-09-01",
-          "count": 0
-        },
-        {
-          "date": "2026-09-02",
-          "count": 0
-        },
-        {
           "date": "2026-09-03",
           "count": 1
         },
@@ -33,46 +21,13 @@
         {
           "date": "2026-09-05",
           "count": 2
-        },
-        {
-          "date": "2026-09-06",
-          "count": 0
         }
       ]
     },
     "purple-squirrel": {
       "total": 0,
       "chart": "purple-squirrel.png",
-      "points": [
-        {
-          "date": "2026-08-31",
-          "count": 0
-        },
-        {
-          "date": "2026-09-01",
-          "count": 0
-        },
-        {
-          "date": "2026-09-02",
-          "count": 0
-        },
-        {
-          "date": "2026-09-03",
-          "count": 0
-        },
-        {
-          "date": "2026-09-04",
-          "count": 0
-        },
-        {
-          "date": "2026-09-05",
-          "count": 0
-        },
-        {
-          "date": "2026-09-06",
-          "count": 0
-        }
-      ]
+      "points": []
     }
   },
   "commentary": "commentary.json"
