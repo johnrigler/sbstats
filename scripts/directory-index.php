@@ -21,11 +21,11 @@ foreach (new DirectoryIterator($directory) as $entry) {
         // Show historical symlink index.php as the inherited directory view.
         if ($name !== 'index.php') continue;
         $items[] = ['name' => $name, 'dir' => false, 'size' => null,
-                    'time' => $entry->getMTime(), 'image' => false];
+                    'time' => $entry->getMTime(), 'image' => false, 'stats' => false];
         continue;
     }
     $items[] = ['name' => $name, 'dir' => $entry->isDir(), 'size' => $entry->isFile() ? $entry->getSize() : null,
-                'time' => $entry->getMTime(), 'image' => $entry->isFile() &&
+                'time' => $entry->getMTime(), 'stats' => $entry->isFile() && str_ends_with($name, '.sbstats'), 'image' => $entry->isFile() &&
                 preg_match('/\\.(?:png|jpe?g|gif|webp)$/i', $name) === 1 &&
                 $entry->getSize() <= 5 * 1024 * 1024];
 }
@@ -68,6 +68,11 @@ th{background:#eaf0f6}td:nth-child(2),td:nth-child(3){white-space:nowrap;color:#
  $icon=$item['dir']?'📁':(str_ends_with(strtolower($item['name']),'.php')?'⌘':'▤');
 ?>
 <tr><td><span class="ico"><?= $icon ?></span><a href="<?=h($link)?>"><?=h($item['name'])?><?= $item['dir']?'/':'' ?></a>
+<?php if ($item['stats'] && str_starts_with($relative,'2010/')): 
+  $graph='/scripts/vmstat-graph.php?file='.rawurlencode(str_replace(DIRECTORY_SEPARATOR,'/',$relative).'/'.$item['name']); ?>
+<a href="<?=h($graph)?>" target="_blank" rel="noopener">Graph PNG</a>
+<a href="<?=h($graph)?>" target="_blank" rel="noopener"><img class="preview" loading="lazy" src="<?=h($graph)?>" alt="Five-minute vmstat chart: <?=h($item['name'])?>"></a>
+<?php endif; ?>
 <?php if ($item['image']): ?><a href="<?=h($link)?>"><img class="preview" loading="lazy" src="<?=h($link)?>" alt="Preview of <?=h($item['name'])?>"></a><?php endif; ?></td>
 <td><?= $item['size']===null?'—':h(sbstatsFormatSize($item['size'])) ?></td><td><?=h(gmdate('Y-m-d H:i',$item['time']))?> UTC</td></tr>
 <?php endforeach; ?></tbody></table>
