@@ -7,16 +7,19 @@ PORT="8001"
 INSTALL=0
 LEGACY=0
 ALLOW_REMOTE_LEGACY=0
+CLEAN_PHP=0
 for arg in "$@"; do
   case "$arg" in
     --install) INSTALL=1 ;;
+    --clean-php) CLEAN_PHP=1 ;;
     --legacy) LEGACY=1 ;;
     --allow-remote-legacy) ALLOW_REMOTE_LEGACY=1 ;;
     --host=*) HOST="${arg#*=}" ;;
     --port=*) PORT="${arg#*=}" ;;
     --help|-h)
       cat <<'EOF'
-Usage: bash scripts/php-serve.sh [--install] [--legacy] [--allow-remote-legacy] [--host=0.0.0.0] [--port=8001]
+Usage: bash scripts/php-serve.sh [--install] [--clean-php] [--legacy] [--allow-remote-legacy] [--host=0.0.0.0] [--port=8001]
+  --clean-php  Diagnose PHP server startup without php.ini or extensions (graphs need GD).
   --install  Install PHP CLI plus GD via apt, dnf or apk if missing.
              Requires appropriate privileges (sudo when available).
   --legacy   Enable browsing original 2013 PHP endpoints. WARNING: historical
@@ -68,4 +71,10 @@ echo "Directory index: http://$HOST:$PORT/ (replace 0.0.0.0 with the host IP fro
 echo "2010 files:      http://$HOST:$PORT/2010/"
 echo "PHP sample:      http://$HOST:$PORT/examples/php/"
 echo "Solana stats: http://$HOST:$PORT/examples/solana/"
-SBSTATS_LEGACY="$LEGACY" php -d display_errors=1 -d log_errors=1 -d error_reporting=-1 -d short_open_tag=1 -S "$HOST:$PORT" -t "$ROOT" "$ROOT/scripts/php-router.php"
+PHP_ARGS=()
+if [[ "$CLEAN_PHP" == 1 ]]; then
+  PHP_ARGS=(-n)
+  echo "Diagnostic mode: PHP configuration and extensions disabled (including GD)."
+  echo "If this still says Cannot create lock, the issue is not caused by php.ini."
+fi
+SBSTATS_LEGACY="$LEGACY" PHP_CLI_SERVER_WORKERS=1 php "${PHP_ARGS[@]}" -d display_errors=1 -d log_errors=1 -d error_reporting=-1 -d short_open_tag=1 -S "$HOST:$PORT" -t "$ROOT" "$ROOT/scripts/php-router.php"
