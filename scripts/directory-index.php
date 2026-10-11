@@ -1,75 +1,67 @@
 <?php
 declare(strict_types=1);
-/**
- * SB Stats directory index. Included by the local PHP router.
- * Cascades through nested folders without replacing legacy index.php symlinks.
- */
-$root = realpath(dirname(__DIR__));
-$directory = realpath($directory ?? $root);
-if ($root === false || $directory === false ||
-    !($directory === $root || str_starts_with($directory, $root . DIRECTORY_SEPARATOR))) {
-    http_response_code(403); exit('Forbidden');
+$root=realpath(dirname(__DIR__));
+$directory=realpath($directory ?? $root);
+if (!$root||!$directory||!($directory===$root||str_starts_with($directory,$root.DIRECTORY_SEPARATOR))) {http_response_code(403);exit('Forbidden');}
+$relative=trim(substr($directory,strlen($root)),DIRECTORY_SEPARATOR);
+$prefix='/'.($relative===''?'':str_replace(DIRECTORY_SEPARATOR,'/',$relative).'/');
+function sbh(string $s): string{return htmlspecialchars($s,ENT_QUOTES|ENT_SUBSTITUTE,'UTF-8');}
+function sbSize(int $n): string{return $n>=1048576?round($n/1048576,1).' MB':($n>=1024?round($n/1024,1).' KB':$n.' B');}
+$folders=[];$images=[];$sources=[];$files=[];
+foreach(new DirectoryIterator($directory) as $entry){
+ if($entry->isDot()||$entry->isLink())continue;
+ $name=$entry->getFilename();
+ if($name==='index.php'||str_starts_with($name,'.')||$name==='keep'||preg_match('/\\.(?:pem|crt|key|tar|ext|int)$/i',$name))continue;
+ if($entry->isDir()){$folders[]=$name;continue;}
+ if(!is_file($entry->getPathname()))continue;
+ if(preg_match('/\\.(?:png|jpe?g|gif|webp)$/i',$name))$images[$name]=$name;
+ elseif(str_ends_with($name,'.sbstats'))$sources[$name]=$name;
+ else $files[$name]=$name;
 }
-$relative = trim(substr($directory, strlen($root)), DIRECTORY_SEPARATOR);
-$items = [];
-foreach (new DirectoryIterator($directory) as $entry) {
-    if ($entry->isDot()) continue;
-    $name = $entry->getFilename();
-    if (strtolower($name) === 'index.php') continue;
-    if (str_starts_with($name, '.') || preg_match('/\.(?:pem|crt|key|tar|ext|int)$/i', $name)) continue;
-    if ($name === 'keep') continue;
-    if ($entry->isLink()) continue;
-    $items[] = ['name' => $name, 'dir' => $entry->isDir(), 'size' => $entry->isFile() ? $entry->getSize() : null,
-                'time' => $entry->getMTime(), 'stats' => $entry->isFile() && str_ends_with($name, '.sbstats'), 'image' => $entry->isFile() &&
-                preg_match('/\\.(?:png|jpe?g|gif|webp)$/i', $name) === 1 &&
-                $entry->getSize() <= 5 * 1024 * 1024];
+natcasesort($folders);ksort($images,SORT_NATURAL);ksort($sources,SORT_NATURAL);ksort($files,SORT_NATURAL);
+// Materialize missing/stale PNGs next to their sources so all future views use static images.
+if(str_starts_with($relative,'2010/')){
+ require_once __DIR__.'/vmstat-lib.php';
+ foreach($sources as $name){
+    $src=$directory.DIRECTORY_SEPARATOR.$name;
+    try {
+      $png=sbstatsCache($src);
+      $images[basename($png)]=basename($png);
+    } catch(Throwable $e){$files[$name]='Error building graph: '.$e->getMessage();}
+ }
+ ksort($images,SORT_NATURAL);
 }
-usort($items, static function($a, $b) {
-    return (($b['dir'] <=> $a['dir']) ?: strnatcasecmp($a['name'], $b['name']));
-});
-function h(string $s): string { return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
-function sbstatsFormatSize(int $n): string {
-    $units = ['B', 'KB', 'MB', 'GB']; $v = (float)$n; $i=0;
-    while ($v >= 1024 && $i < count($units)-1) { $v /= 1024; $i++; }
-    return ($i ? number_format($v, 1) : (string)$n) . ' ' . $units[$i];
-}
-$parts = $relative === '' ? [] : explode(DIRECTORY_SEPARATOR, $relative);
-$breadcrumbs = [['label'=>'SB Stats', 'url'=>'/']];
-$url = '';
-foreach ($parts as $part) { $url .= rawurlencode($part) . '/'; $breadcrumbs[] = ['label'=>$part,'url'=>'/'.$url]; }
-$prefix = '/' . ($relative === '' ? '' : implode('/',array_map('rawurlencode',$parts)).'/');
-$isLegacy = getenv('SBSTATS_LEGACY') === '1';
-?>
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Index of <?= h('/'.$relative) ?> | SB Stats</title>
-<style>
-body{font:15px system-ui,sans-serif;background:#f6f8fa;color:#203249;margin:0}
-main{max-width:1000px;padding:22px;margin:auto}
-a{color:#245e8e;text-decoration:none}a:hover{text-decoration:underline}
-nav{display:flex;flex-wrap:wrap;gap:6px;color:#657589}
-table{border-collapse:collapse;width:100%;background:white;border:1px solid #d6e0e9}
-th,td{padding:9px 11px;border-bottom:1px solid #e9edf1;text-align:left}
-th{background:#eaf0f6}td:nth-child(2),td:nth-child(3){white-space:nowrap;color:#617386}
-.ico{display:inline-block;width:1.7em}.note{color:#617386}.preview{display:block;max-width:min(100%,380px);max-height:175px;object-fit:contain;margin:8px 0;border:1px solid #e4ebf2;border-radius:4px}
-@media(max-width:600px){td:nth-child(3),th:nth-child(3){display:none}}
-</style></head><body><main>
-<nav><?php foreach($breadcrumbs as $i=>$crumb): ?><?= $i ? ' / ' : '' ?><a href="<?=h($crumb['url'])?>"><?=h($crumb['label'])?></a><?php endforeach; ?></nav>
-<h1>Index of /<?=h($relative)?></h1>
-<?php if (!$isLegacy): ?><p class="note">Legacy PHP execution is disabled. Use <code>bash scripts/php-serve.sh --legacy</code> locally to inspect the original scripts.</p><?php endif; ?>
-<table><thead><tr><th>Name</th><th>Size</th><th>Modified</th></tr></thead><tbody>
-<?php if ($relative !== ''): ?><tr><td><span class="ico">↩</span><a href="../">Parent directory</a></td><td></td><td></td></tr><?php endif; ?>
-<?php foreach ($items as $item):
- $link=$prefix.rawurlencode($item['name']).($item['dir']?'/':'');
- $icon=$item['dir']?'📁':(str_ends_with(strtolower($item['name']),'.php')?'⌘':'▤');
-?>
-<tr><td><span class="ico"><?= $icon ?></span><a href="<?=h($link)?>"><?=h($item['name'])?><?= $item['dir']?'/':'' ?></a>
-<?php if ($item['stats'] && str_starts_with($relative,'2010/')): 
-  $graph='/scripts/vmstat-graph.php?file='.rawurlencode(str_replace(DIRECTORY_SEPARATOR,'/',$relative).'/'.$item['name']); ?>
-<a href="<?=h($graph)?>" target="_blank" rel="noopener">Graph PNG</a>
-<a href="<?=h($graph)?>" target="_blank" rel="noopener"><img class="preview" loading="lazy" src="<?=h($graph)?>" alt="Five-minute vmstat chart: <?=h($item['name'])?>"></a>
-<?php endif; ?>
-<?php if ($item['image']): ?><a href="<?=h($link)?>"><img class="preview" loading="lazy" src="<?=h($link)?>" alt="Preview of <?=h($item['name'])?>"></a><?php endif; ?></td>
-<td><?= $item['size']===null?'—':h(sbstatsFormatSize($item['size'])) ?></td><td><?=h(gmdate('Y-m-d H:i',$item['time']))?> UTC</td></tr>
-<?php endforeach; ?></tbody></table>
-<p class="note"><?=count($items)?> entries. Directory contents are read from the filesystem; no database or generated navigation manifest.</p>
+$segments=$relative===''?[]:explode(DIRECTORY_SEPARATOR,$relative);
+$crumbs=[['SB Stats','/']];$part='';
+foreach($segments as $seg){$part.=rawurlencode($seg).'/';$crumbs[]=[$seg,'/'.$part];}
+?><!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SB Stats / <?=sbh($relative)?></title><style>
+*{box-sizing:border-box}body{margin:0;background:#f5f7fa;color:#193047;font:15px system-ui,sans-serif}
+main{max-width:1500px;margin:auto;padding:14px}a{color:#286b99;text-decoration:none}a:hover{text-decoration:underline}
+header{padding:4px 0 10px}nav{display:flex;gap:7px;flex-wrap:wrap;font-size:14px;color:#718092}
+h1{font-size:22px;margin:12px 0}h2{font-size:17px;margin:10px 0}.folders{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.folders a{background:#e8eef5;padding:8px 12px;border-radius:6px}.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,590px),1fr));gap:13px}
+figure{margin:0;background:#fff;padding:5px;border:1px solid #dce3ea;border-radius:7px}
+figure>a{display:block}figure img{display:block;width:100%;height:auto}figcaption{padding:5px;font-size:12px;color:#5f7282;overflow-wrap:anywhere}
+.meta{margin-top:17px;color:#647588;font-size:13px}.extras{margin:24px 0 0;font-size:12px}.extras a{margin-right:12px;display:inline-block}
+</style></head><body><main><header><nav>
+<?php foreach($crumbs as $i=>$c): ?><?= $i?' / ':'' ?><a href="<?=sbh($c[1])?>"><?=sbh($c[0])?></a><?php endforeach; ?>
+</nav><h1><?=sbh($relative?:'/')?> <small>(<?=count($images)?> images)</small></h1>
+<?php if($relative!==''): ?><a href="../">↩ Parent directory</a><?php endif; ?>
+<?php if($folders): ?><div class="folders"><?php foreach($folders as $dir): ?>
+<a href="<?=sbh($prefix.rawurlencode($dir).'/')?>">📁 <?=sbh($dir)?></a>
+<?php endforeach; ?></div><?php endif; ?>
+</header>
+<?php if($images): ?><section class="gallery">
+<?php foreach($images as $name): $href=$prefix.rawurlencode($name); ?>
+<figure><a href="<?=sbh($href)?>"><img loading="lazy" src="<?=sbh($href)?>" alt="<?=sbh($name)?>"></a>
+<figcaption><a href="<?=sbh($href)?>"><?=sbh($name)?></a>
+<?php $source=substr($name,0,strrpos($name,'.')).'.sbstats';
+if(isset($sources[$source])): ?> · <?=sbh($source)?><?php endif; ?></figcaption></figure>
+<?php endforeach; ?></section><?php else: ?><p>No images yet in this directory.</p><?php endif; ?>
+<?php if($sources||$files): ?><details class="extras"><summary>Other files (<?=count($sources)+count($files)?>)</summary>
+<?php foreach(array_keys($sources+$files) as $name): ?>
+<span><?=sbh($name)?></span> ·
+<?php endforeach; ?></details><?php endif; ?>
+<p class="meta">PNG-first directory view. Generated PNGs are cached beside the original .sbstats data.</p>
 </main></body></html>
