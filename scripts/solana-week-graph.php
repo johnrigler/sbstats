@@ -52,17 +52,23 @@ function sbstatsSolanaPaint(string $png,array $week,array $series):void {
     imagestring($im,5,24,19,'SB Stats / Solana / '.$weekId,$colors['text']);
     imagestring($im,3,24,48,'Daily sampled distinct signatures | UTC | top-20 account sample (not all mint transfers)',$colors['text']);
     $tokens=array_keys($series);$n=count($tokens);
+    $byDay=[];
+    foreach($series as $token=>$subject)foreach(($subject['points']??[]) as $point){
+        $day=(int)((new DateTimeImmutable($point['date']))->diff(new DateTimeImmutable($week['start']))->format('%r%a'));
+        $day=-$day;
+        if($day>=0&&$day<7)$byDay[$token][$day]=(int)($point['count']??0);
+    }
     for($day=0;$day<7;$day++){
         $band=($right-$left)/7;$center=$left+$band*($day+.5);
         foreach($tokens as $j=>$token){
-            $v=(int)($series[$token]['points'][$day]['count']??0);
+            $v=(int)($byDay[$token][$day]??0);
             $barWidth=$n===1?90:49;
             $x=(int)round($center-($n*$barWidth)/2+$j*$barWidth);
             $y=$bottom-(int)round(($bottom-$top)*$v/$scale);
             if($v>0) imagefilledrectangle($im,$x,$y,$x+$barWidth-3,$bottom,$colors[$token]);
             imagestring($im,3,$x+10,max(77,$y-18),(string)$v,$colors['text']);
         }
-        $date=substr((string)($labels[$day]??''),5);
+        $date=(new DateTimeImmutable($week['start']))->modify('+'.$day.' days')->format('m-d');
         imagestring($im,3,(int)$center-28,$bottom+14,['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][$day],$colors['text']);
         imagestring($im,2,(int)$center-22,$bottom+37,$date,$colors['text']);
     }
