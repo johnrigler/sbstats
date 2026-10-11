@@ -21,12 +21,13 @@ def png(path,record):
     p.text((30,22),record['subject'].replace('-',' ').title()+' / '+record['week'],font=font(28),fill='#1c2b3c')
     p.text((30,65),record['start']+' to '+record['end']+' UTC / '+str(record['total'])+' sampled signatures',font=font(17),fill='#5d7083')
     left,right,top,bottom=80,1000,115,315
-    peak=max(1,max(row['count'] for row in record['points']))
+    peak=max(1,max((row['count'] for row in record['points']),default=0))
     for i in range(5):
         y=bottom-round((bottom-top)*i/4)
         p.line((left,y,right,y),fill='#dce3ec')
         p.text((27,y-9),str(round(peak*i/4)),font=font(14),fill='#5d7083')
-    for i,row in enumerate(record['points']):
+    for row in record['points']:
+        i=(date.fromisoformat(row['date'])-date.fromisoformat(record['start'])).days
         center=left+(right-left)*(i+.5)/7
         y=bottom-round((bottom-top)*row['count']/peak)
         if row['count']:p.rectangle((center-27,y,center+27,bottom),fill='#24688f' if record['subject']=='get-money' else '#585596')
@@ -49,8 +50,10 @@ def run(source,output):
         location=Path(output)/year/('W'+w)
         item={'schema':'sbstats/week-v1','id':week,'timezone':'UTC','start':days[0],'end':days[-1],'metric':'sampled_distinct_signatures','subjects':{},'commentary':'commentary.json'}
         for token,counts in subjects.items():
-            points=[{'date':day,'count':counts[i]} for i,day in enumerate(days)]
+            points=[{'date':day,'count':counts[i]} for i,day in enumerate(days) if counts[i]>0]
             obj={'schema':'sbstats/png-v1','week':week,'subject':token,'start':days[0],'end':days[-1],'timezone':'UTC','metric':'sampled_distinct_signatures','points':points,'total':sum(counts),'coverage':data['coverage'],'source':'examples/solana/data/sample-daily.json'}
+            if not points:
+                continue
             png(location/(token+'.png'),obj)
             item['subjects'][token]={'total':sum(counts),'chart':token+'.png','points':points}
         write(location/'week.json',item)
