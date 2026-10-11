@@ -19,6 +19,15 @@ foreach(new DirectoryIterator($directory) as $entry){
  else $files[$name]=$name;
 }
 natcasesort($folders);ksort($images,SORT_NATURAL);ksort($sources,SORT_NATURAL);ksort($files,SORT_NATURAL);
+if(preg_match('#^examples/solana/[0-9]{4}/W[0-9]{2}$#',$relative) && is_file($directory.'/week.json')){
+    try {
+        require_once __DIR__.'/solana-week-graph.php';
+        foreach(sbstatsSolanaCharts($directory) as $imageName) $images[$imageName]=$imageName;
+        ksort($images,SORT_NATURAL);
+    } catch(Throwable $e) {
+        $files['Solana graph generation error']=$e->getMessage();
+    }
+}
 // Materialize missing/stale PNGs next to their sources so all future views use static images.
 if(str_starts_with($relative,'2010/')){
  require_once __DIR__.'/vmstat-lib.php';
@@ -52,6 +61,9 @@ figure>a{display:block}figure img{display:block;width:100%;height:auto}figcaptio
 <a href="<?=sbh($prefix.rawurlencode($dir).'/')?>">📁 <?=sbh($dir)?></a>
 <?php endforeach; ?></div><?php endif; ?>
 </header>
+<?php if(!empty($files['Solana graph generation error'])): ?>
+<p role="alert"><?=sbh($files['Solana graph generation error'])?></p>
+<?php endif; ?>
 <?php if($images): ?><section class="gallery">
 <?php foreach($images as $name): $href=$prefix.rawurlencode($name); ?>
 <figure><a href="<?=sbh($href)?>"><img loading="lazy" src="<?=sbh($href)?>" alt="<?=sbh($name)?>"></a>
