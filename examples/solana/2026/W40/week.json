@@ -1,0 +1,79 @@
+{
+  "schema": "sbstats/week-v1",
+  "id": "2026-W40",
+  "timezone": "UTC",
+  "start": "2026-09-28",
+  "end": "2026-10-04",
+  "metric": "sampled_distinct_signatures",
+  "subjects": {
+    "get-money": {
+      "total": 6,
+      "chart": "get-money.png",
+      "points": [
+        {
+          "date": "2026-09-28",
+          "count": 0
+        },
+        {
+          "date": "2026-09-29",
+          "count": 2
+        },
+        {
+          "date": "2026-09-30",
+          "count": 0
+        },
+        {
+          "date": "2026-10-01",
+          "count": 0
+        },
+        {
+          "date": "2026-10-02",
+          "count": 0
+        },
+        {
+          "date": "2026-10-03",
+          "count": 1
+        },
+        {
+          "date": "2026-10-04",
+          "count": 3
+        }
+      ]
+    },
+    "purple-squirrel": {
+      "total": 10,
+      "chart": "purple-squirrel.png",
+      "points": [
+        {
+          "date": "2026-09-28",
+          "count": 0
+        },
+        {
+          "date": "2026-09-29",
+          "count": 3
+        },
+        {
+          "date": "2026-09-30",
+          "count": 4
+        },
+        {
+          "date": "2026-10-01",
+          "count": 0
+        },
+        {
+          "date": "2026-10-02",
+          "count": 2
+        },
+        {
+          "date": "2026-10-03",
+          "count": 1
+        },
+        {
+          "date": "2026-10-04",
+          "count": 0
+        }
+      ]
+    }
+  },
+  "commentary": "commentary.json"
+}

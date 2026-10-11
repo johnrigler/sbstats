@@ -1,0 +1,208 @@
+{
+  "schema": "sbstats/sample-daily-v1",
+  "source": "pull2.tar (October 11 2026): top-20-account signatures",
+  "method": "Deduplicate per token and signature; exclude failed transactions; bucket in UTC",
+  "coverage": "Partial top-account sample, not verified mint transfers; zero means none observed in this sample.",
+  "weeks": {
+    "2024-W26": {
+      "get-money": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "purple-squirrel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        23
+      ]
+    },
+    "2026-W33": {
+      "get-money": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        15,
+        0
+      ],
+      "purple-squirrel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "2026-W34": {
+      "get-money": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "purple-squirrel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "2026-W35": {
+      "get-money": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "purple-squirrel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "2026-W36": {
+      "get-money": [
+        0,
+        0,
+        0,
+        1,
+        4,
+        2,
+        0
+      ],
+      "purple-squirrel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "2026-W37": {
+      "get-money": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        1
+      ],
+      "purple-squirrel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "2026-W38": {
+      "get-money": [
+        6,
+        0,
+        1,
+        0,
+        2,
+        1,
+        0
+      ],
+      "purple-squirrel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "2026-W39": {
+      "get-money": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2
+      ],
+      "purple-squirrel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "2026-W40": {
+      "get-money": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        1,
+        3
+      ],
+      "purple-squirrel": [
+        0,
+        3,
+        4,
+        0,
+        2,
+        1,
+        0
+      ]
+    },
+    "2026-W41": {
+      "get-money": [
+        17,
+        2,
+        1,
+        2,
+        0,
+        0,
+        2
+      ],
+      "purple-squirrel": [
+        0,
+        0,
+        0,
+        4,
+        6,
+        0,
+        0
+      ]
+    }
+  }
+}

@@ -1,0 +1,36 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SB Stats / Solana</title>
+<style>*{box-sizing:border-box}body{font:16px system-ui;background:#f3f6f9;color:#192c3f;margin:0}main{max-width:1020px;margin:auto;padding:20px}.box{background:white;border:1px solid #dbe3eb;border-radius:10px;padding:15px;margin:14px 0}nav{display:flex;flex-wrap:wrap;gap:10px;align-items:center}button,select{font:inherit;padding:10px;border:1px solid #afbccb;border-radius:7px;background:white}button:disabled{opacity:.3}img{max-width:100%;height:auto;display:block}table{border-collapse:collapse;width:100%}td,th{padding:7px;border-bottom:1px solid #e3e9ee;text-align:left}.muted{color:#5d7083}h1{margin-bottom:4px}</style></head><body><main>
+<h1>SB Stats / Solana</h1><p class="muted">ISO weeks start Monday. Figures are a sampled subset of top-20 accounts, not full token histories.</p>
+<div class="box"><nav><button id="back" aria-label="Previous week">&#8592;</button><select id="week"></select><button id="forward" aria-label="Next week">&#8594;</button><select id="token"><option value="get-money">Get Money</option><option value="purple-squirrel">Purple Squirrel</option></select></nav><p id="status"></p><div id="graph"></div></div>
+<div class="box"><h2>Days</h2><div id="days"></div></div>
+<div class="box"><h2>Commentary</h2><div id="notes"></div></div>
+<p class="muted">Each PNG includes recoverable exact daily graph data in its metadata. Static web hosting, SB Shell and IPFS can serve the same files.</p>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);const items=['week','token','back','forward','status','graph','days','notes'].map($);
+const [week,token,back,forward,status,graph,days,notes]=items;
+let catalog=null,index=0;
+async function getJson(p){const response=await fetch(p);if(!response.ok)throw Error(p+' HTTP '+response.status);return response.json();}
+function node(tag,text){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;return e;}
+async function show(){
+  const chosen=catalog.weeks[index],base=chosen.path.replace(/week\.json$/,'');
+  week.value=chosen.id;back.disabled=index===0;forward.disabled=index===catalog.weeks.length-1;
+  graph.replaceChildren();days.replaceChildren();notes.replaceChildren();status.textContent='Loading '+chosen.id;
+  try{
+    const [w,c]=await Promise.all([getJson(chosen.path),getJson(base+'commentary.json')]);
+    const s=w.subjects[token.value],url=base+s.chart;
+    const a=node('a');a.href=url;a.title='Open SB Stats PNG';
+    const img=node('img');img.alt='Sampled weekly activity, '+chosen.id+' for '+token.value;img.src=url;
+    img.onerror=()=>{a.replaceChildren(node('p','PNG not generated yet. Run python3 tools/render_sol_stats.py to create it.'));};
+    a.append(img);graph.append(a);
+    status.textContent=chosen.id+' / '+w.start+' to '+w.end+' / '+s.total+' sampled signatures';
+    const table=node('table'),heading=node('tr');heading.append(node('th','UTC day'),node('th','Signatures'));table.append(heading);
+    for(const item of s.points){const tr=node('tr');tr.append(node('td',item.date),node('td',String(item.count)));table.append(tr);}days.append(table);
+    if(c.entries?.length){for(const entry of c.entries)notes.append(node('p',(entry.day||chosen.id)+' / '+(entry.author||'Unknown')+': '+(entry.text||'')));}
+    else notes.append(node('p','No commentary recorded.'));
+  }catch(err){status.textContent='Failed to load week: '+err.message;}
+}
+week.addEventListener('change',()=>{index=catalog.weeks.findIndex(x=>x.id===week.value);show();});
+token.addEventListener('change',show);back.addEventListener('click',()=>{index--;show();});forward.addEventListener('click',()=>{index++;show();});
+(async()=>{try{catalog=await getJson('catalog.json');for(const w of catalog.weeks){const o=node('option',w.id);o.value=w.id;week.append(o);}index=Math.max(0,catalog.weeks.findIndex(x=>x.id==='2026-W41'));show();}catch(err){status.textContent=err.message;}})();
+</script></main></body></html>

@@ -1,0 +1,10 @@
+{
+  "schema": "sbstats/config-v1",
+  "week_start": "Monday",
+  "timezone": "UTC",
+  "default_week": "2026-W41",
+  "subjects": [
+    "get-money",
+    "purple-squirrel"
+  ]
+}
