@@ -33,7 +33,7 @@ usort($items, static function($a, $b) {
     return (($b['dir'] <=> $a['dir']) ?: strnatcasecmp($a['name'], $b['name']));
 });
 function h(string $s): string { return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
-function fileSize(int $n): string {
+function sbstatsFormatSize(int $n): string {
     $units = ['B', 'KB', 'MB', 'GB']; $v = (float)$n; $i=0;
     while ($v >= 1024 && $i < count($units)-1) { $v /= 1024; $i++; }
     return ($i ? number_format($v, 1) : (string)$n) . ' ' . $units[$i];
@@ -69,7 +69,7 @@ th{background:#eaf0f6}td:nth-child(2),td:nth-child(3){white-space:nowrap;color:#
 ?>
 <tr><td><span class="ico"><?= $icon ?></span><a href="<?=h($link)?>"><?=h($item['name'])?><?= $item['dir']?'/':'' ?></a>
 <?php if ($item['image']): ?><a href="<?=h($link)?>"><img class="preview" loading="lazy" src="<?=h($link)?>" alt="Preview of <?=h($item['name'])?>"></a><?php endif; ?></td>
-<td><?= $item['size']===null?'—':h(fileSize($item['size'])) ?></td><td><?=h(gmdate('Y-m-d H:i',$item['time']))?> UTC</td></tr>
+<td><?= $item['size']===null?'—':h(sbstatsFormatSize($item['size'])) ?></td><td><?=h(gmdate('Y-m-d H:i',$item['time']))?> UTC</td></tr>
 <?php endforeach; ?></tbody></table>
 <p class="note"><?=count($items)?> entries. Directory contents are read from the filesystem; no database or generated navigation manifest.</p>
 </main></body></html>
