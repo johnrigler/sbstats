@@ -76,3 +76,17 @@ For older data or data not committed to GitHub, use the file picker.
 
 The ranking Python output retains the original links. Existing ranking
 files made before this update must be regenerated to contain them.
+
+## Solana ecosystem and demonstration
+
+Open [the static ecosystem map](../examples/solana/ecosystem.html) for a categorized tour of launchpads, market dashboards, DEXs, aggregators, terminals, wallets, explorers and social channels. The page supplies read-only mint lookup links and a reproducible demonstration sequence, not executable trades.
+
+Keep these concepts separate:
+
+- A token mint and SPL/Token-2022 authorities are not a liquidity pool or a trading terminal.
+- A DEX pool executes trades; DEX Screener displays reported data and may sell promotional visibility.
+- A wallet authorizes transactions; a login message is not itself a token swap.
+- Telegram links and paid promotional signals are unverified social observations, not proof of collusion.
+- The proposed Zorkmid EVM token belongs to the cross-chain ETHDenver research track; do not conflate ERC-20 deployment with Solana mint issuance.
+
+Future gated work: exact-mint program/account inspection, independently verified swap decoding, quote and fee breakdown, read-only simulation, signed wallet execution with explicit limits, pool/liquidity metrics, and AI-assisted research. No funded trading agent exists in this update.
