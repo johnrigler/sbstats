@@ -38,30 +38,26 @@ error_log = $PREFIX/var/log/sbstats/fpm.log
 daemonize = yes
 include=$POOLCONF
 EOF
-# Termux ships these modules but may leave them disabled by default.
-# Use a separate generated include file, without changing the packaged httpd.conf.
-MODULECONF="$PREFIX/etc/apache2/conf.d/00-sbstats-modules.conf"
+# Isolate SB Stats from recursively loaded conf.d files and old generated listeners.
+PRIVATECONF="$STATE/httpd.conf"
+MODULECONF="$STATE/modules.conf"
+cp "$PREFIX/etc/apache2/httpd.conf" "$PRIVATECONF"
+# Apache's default may include conf.d through a wildcard, including files we
+# previously generated. Remove inherited includes from this private copy.
+sed -i '/^[[:space:]]*IncludeOptional[[:space:]]/d; /^[[:space:]]*Include[[:space:]]/d' "$PRIVATECONF"
 : > "$MODULECONF"
 for spec in "rewrite rewrite_module" "proxy proxy_module" "proxy_fcgi proxy_fcgi_module"; do
   read -r name module <<< "$spec"
-  if ! httpd -M 2>&1 | grep -q "$module"; then
+  if ! grep -Eq "^[[:space:]]*LoadModule[[:space:]]+$module[[:space:]]" "$PRIVATECONF"; then
     so="$PREFIX/libexec/apache2/mod_$name.so"
     if [[ ! -f "$so" ]]; then
       echo "Missing Apache module: $so" >&2
-      echo "Check: find \"$PREFIX\" -name 'mod_$name.so'" >&2
       exit 1
     fi
-    printf 'LoadModule %s "%s"\n' "$module" "$so" >> "$MODULECONF"
+    printf 'LoadModule %s "%s"\\n' "$module" "$so" >> "$MODULECONF"
   fi
 done
-# Build a private Apache config from the packaged one, then include our snippets.
-# This leaves Termux's original httpd.conf untouched.
-PRIVATECONF="$STATE/httpd.conf"
-cp "$PREFIX/etc/apache2/httpd.conf" "$PRIVATECONF"
-# The packaged configuration may already load conf.d; do not include it twice.
-# The private copy removes any inherited SB Stats include and appends one explicit include.
-sed -i '/^[[:space:]]*IncludeOptional[[:space:]].*conf\\.d/d; /^[[:space:]]*Include[[:space:]].*conf\\.d/d' "$PRIVATECONF"
-printf '\nServerName localhost\nInclude "%s"\nInclude "%s"\n' "$MODULECONF" "$APCONF" >> "$PRIVATECONF"
+printf '\\nServerName localhost\\nInclude "%s"\\nInclude "%s"\\n' "$MODULECONF" "$APCONF" >> "$PRIVATECONF"
 cat > "$APCONF" <<EOF
 Listen $HOST:$PORT
 <VirtualHost $HOST:$PORT>
