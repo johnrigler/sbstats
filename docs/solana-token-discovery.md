@@ -42,3 +42,28 @@ Source documentation: https://docs.dexscreener.com/api/reference
    from swaps, and records provenance and coverage.
 3. Add separate social observation records, including source and collection timestamp.
 4. Derive ISO-week displays from actual UTC observations, never from rolling 24h snapshots.
+
+## Rank the discovered candidates (TypeScript)
+
+The optional TypeScript tool analyzes all saved boosted candidates and writes an
+activity-based top ten. It uses Deno to execute TypeScript directly; no Node.js,
+transpiler or package dependencies. Install Deno separately if needed:
+
+```sh
+deno run --allow-read --allow-write --allow-net=api.dexscreener.com \
+  tools/rank_solana_candidates.ts \
+  examples/solana/market/discovery/YYYY-MM-DD.json
+```
+
+Replace `YYYY-MM-DD` with the actual UTC discovery date. Results are saved
+to `examples/solana/market/rankings/YYYY-MM-DD.json`. It chooses the
+highest-liquidity matching pool for each exact mint, rejects tokens with less than
+$100,000 reported liquidity, and scores volume (45%), liquidity (35%), and
+transaction count (20%) using log scaling. It does not award points for paid
+boosts and does not claim Telegram groups have been verified. The output retains
+all successfully retrieved candidates and separates API errors rather than
+converting failed requests to zero activity.
+
+These are rolling 24-hour DEX Screener snapshots, not precise UTC-day counts or
+wallet counts. This list represents *boosted candidates only*, not a top ten of
+every Solana token.
