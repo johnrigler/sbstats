@@ -54,10 +54,10 @@ for spec in "rewrite rewrite_module" "proxy proxy_module" "proxy_fcgi proxy_fcgi
       echo "Missing Apache module: $so" >&2
       exit 1
     fi
-    printf 'LoadModule %s "%s"\\n' "$module" "$so" >> "$MODULECONF"
+    printf 'LoadModule %s "%s"\n' "$module" "$so" >> "$MODULECONF"
   fi
 done
-printf '\\nServerName localhost\\nInclude "%s"\\nInclude "%s"\\n' "$MODULECONF" "$APCONF" >> "$PRIVATECONF"
+printf '\nServerName localhost\nInclude "%s"\nInclude "%s"\n' "$MODULECONF" "$APCONF" >> "$PRIVATECONF"
 cat > "$APCONF" <<EOF
 Listen $HOST:$PORT
 <VirtualHost $HOST:$PORT>
