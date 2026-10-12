@@ -38,13 +38,26 @@ error_log = $PREFIX/var/log/sbstats/fpm.log
 daemonize = yes
 include=$POOLCONF
 EOF
-# The packaged Termux httpd.conf loads conf.d/*.conf. Check modules before modifying it.
-MODULES="$(httpd -M 2>&1 || true)"
-if ! grep -q 'rewrite_module' <<< "$MODULES";then
- echo 'Apache mod_rewrite must be enabled in httpd.conf.' >&2;exit 1
-fi
-if ! grep -q 'proxy_fcgi_module' <<< "$MODULES";then
- echo 'Enable proxy_module and proxy_fcgi_module in httpd.conf.' >&2;exit 1
+# Termux ships these modules but may leave them disabled by default.
+# Use a separate generated include file, without changing the packaged httpd.conf.
+MODULECONF="$PREFIX/etc/apache2/conf.d/00-sbstats-modules.conf"
+: > "$MODULECONF"
+for spec in "rewrite rewrite_module" "proxy proxy_module" "proxy_fcgi proxy_fcgi_module"; do
+  read -r name module <<< "$spec"
+  if ! httpd -M 2>&1 | grep -q "$module"; then
+    so="$PREFIX/libexec/apache2/mod_$name.so"
+    if [[ ! -f "$so" ]]; then
+      echo "Missing Apache module: $so" >&2
+      echo "Check: find \"$PREFIX\" -name 'mod_$name.so'" >&2
+      exit 1
+    fi
+    printf 'LoadModule %s "%s"\\n' "$module" "$so" >> "$MODULECONF"
+  fi
+done
+# conf.d must be included by packaged httpd.conf. Check it before continuing.
+if ! grep -Eq '^[[:space:]]*Include(Optional)?[[:space:]]+.*conf\\.d' "$PREFIX/etc/apache2/httpd.conf"; then
+  echo "Apache does not include conf.d. Add: IncludeOptional etc/apache2/conf.d/*.conf" >&2
+  exit 1
 fi
 cat > "$APCONF" <<EOF
 Listen $HOST:$PORT
