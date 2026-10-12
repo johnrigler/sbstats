@@ -14,3 +14,11 @@ python3 tools/collect_solana_market.py --mode discover
 ```
 
 This discovers paid-boost candidates; it is not a top-ten volume ranking. To collect market snapshots for a token, verify its exact mint and set its registry status to `verified` first.
+
+Rank saved boosted candidates with Python:
+
+```sh
+python3 tools/rank_solana_candidates.py examples/solana/market/discovery/YYYY-MM-DD.json
+```
+
+Explore results in [the static candidate viewer](examples/solana/candidates.html). No Deno or Node.js needed.
