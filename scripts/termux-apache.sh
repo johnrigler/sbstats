@@ -73,6 +73,18 @@ EOF
 httpd -t -f "$PRIVATECONF"
 httpd -f "$PRIVATECONF" -k start
 echo "SB Stats listens on $HOST:$PORT"
-echo "From another device use http://<TERMUX-100.x-or-LAN-IP>:$PORT/ (not 0.0.0.0)"
+echo "From another device use the address of this Android device:"
+if command -v tailscale >/dev/null 2>&1; then
+  TAIL_IP="$(tailscale ip -4 2>/dev/null | head -n 1 || true)"
+  if [[ "$TAIL_IP" =~ ^100\\.[0-9]+\\.[0-9]+\\.[0-9]+$ ]]; then
+    echo "  Tailscale: http://$TAIL_IP:$PORT/"
+  fi
+fi
+if command -v ip >/dev/null 2>&1; then
+  LAN_IP="$(ip -4 -o addr show scope global 2>/dev/null | awk '$4 !~ /^100\\./ {split($4,a,"/"); print a[1]; exit}' || true)"
+  if [[ -n "$LAN_IP" ]]; then echo "  LAN: http://$LAN_IP:$PORT/"; fi
+fi
+echo "If no address was found, run: tailscale ip -4"
+echo "Do not use 0.0.0.0 as the browser address."
 echo "PHP runs in Apache through php-apache (no PHP-FPM process)."
 echo "Apache logs: $PREFIX/var/log/sbstats/apache-error.log"
