@@ -13,31 +13,17 @@ for arg in "$@";do case "$arg" in
   --help|-h) echo 'Usage: bash scripts/termux-apache.sh [--port=8001] [--host=0.0.0.0] [--legacy]';exit 0;;
   *) echo "Unknown option: $arg" >&2;exit 2;;
 esac;done
-if ! command -v httpd >/dev/null || ! command -v php-fpm >/dev/null;then
- echo 'Install dependencies: pkg install apache2 php-fpm php-gd' >&2;exit 1
+if ! command -v httpd >/dev/null;then
+ echo 'Install Apache: pkg install apache2' >&2;exit 1
+fi
+if [[ ! -f "$PREFIX/libexec/apache2/libphp.so" ]];then
+ echo 'Install the embedded PHP Apache module: pkg install php-apache' >&2
+ exit 1
 fi
 if [[ "$LEGACY" == 1 && "$HOST" != 127.0.0.1 ]];then echo 'Legacy mode is loopback-only.' >&2;exit 2;fi
 STATE="$PREFIX/var/run/sbstats"
 mkdir -p "$STATE" "$PREFIX/var/log/sbstats" "$PREFIX/etc/apache2/conf.d"
-FPMCONF="$STATE/fpm.conf"
-POOLCONF="$STATE/pool.conf"
-APCONF="$PREFIX/etc/apache2/conf.d/zz-sbstats.conf"
-cat > "$POOLCONF" <<EOF
-[sbstats]
-listen = 127.0.0.1:19081
-pm = static
-pm.max_children = 2
-clear_env = no
-env[SBSTATS_LEGACY] = $LEGACY
-php_admin_value[display_errors] = On
-EOF
-cat > "$FPMCONF" <<EOF
-[global]
-pid = $STATE/fpm.pid
-error_log = $PREFIX/var/log/sbstats/fpm.log
-daemonize = yes
-include=$POOLCONF
-EOF
+APCONF="$STATE/sbstats-vhost.conf"
 # Isolate SB Stats from recursively loaded conf.d files and old generated listeners.
 PRIVATECONF="$STATE/httpd.conf"
 MODULECONF="$STATE/modules.conf"
@@ -46,16 +32,13 @@ cp "$PREFIX/etc/apache2/httpd.conf" "$PRIVATECONF"
 # previously generated. Remove inherited includes from this private copy.
 sed -i '/^[[:space:]]*IncludeOptional[[:space:]]/d; /^[[:space:]]*Include[[:space:]]/d' "$PRIVATECONF"
 : > "$MODULECONF"
-for spec in "rewrite rewrite_module" "proxy proxy_module" "proxy_fcgi proxy_fcgi_module"; do
-  read -r name module <<< "$spec"
-  if ! grep -Eq "^[[:space:]]*LoadModule[[:space:]]+$module[[:space:]]" "$PRIVATECONF"; then
-    so="$PREFIX/libexec/apache2/mod_$name.so"
-    if [[ ! -f "$so" ]]; then
-      echo "Missing Apache module: $so" >&2
-      exit 1
-    fi
-    printf 'LoadModule %s "%s"\n' "$module" "$so" >> "$MODULECONF"
-  fi
+for spec in "rewrite rewrite_module" "php php_module"; do
+ read -r name module <<< "$spec"
+ if ! grep -Eq "^[[:space:]]*LoadModule[[:space:]]+$module[[:space:]]" "$PRIVATECONF"; then
+   if [[ "$name" == php ]];then so="$PREFIX/libexec/apache2/libphp.so";else so="$PREFIX/libexec/apache2/mod_$name.so";fi
+   [[ -f "$so" ]] || { echo "Missing Apache module: $so" >&2;exit 1;}
+   printf 'LoadModule %s "%s"\n' "$module" "$so" >> "$MODULECONF"
+ fi
 done
 printf '\nServerName localhost\nInclude "%s"\nInclude "%s"\n' "$MODULECONF" "$APCONF" >> "$PRIVATECONF"
 cat > "$APCONF" <<EOF
@@ -71,18 +54,15 @@ Listen $HOST:$PORT
  RewriteEngine On
  RewriteRule ^ /scripts/apache-router.php [END]
  <Files "apache-router.php">
-  SetHandler "proxy:fcgi://127.0.0.1:19081"
+  SetHandler application/x-httpd-php
  </Files>
  ErrorLog "$PREFIX/var/log/sbstats/apache-error.log"
  CustomLog "$PREFIX/var/log/sbstats/apache-access.log" common
 </VirtualHost>
 EOF
 httpd -t -f "$PRIVATECONF"
-if [[ ! -f "$STATE/fpm.pid" ]] || ! kill -0 "$(cat "$STATE/fpm.pid")" 2>/dev/null; then
-  php-fpm -y "$FPMCONF"
-fi
 httpd -f "$PRIVATECONF" -k start
 echo "SB Stats listens on $HOST:$PORT"
 echo "From another device use http://<TERMUX-100.x-or-LAN-IP>:$PORT/ (not 0.0.0.0)"
-echo "FPM logs: $PREFIX/var/log/sbstats/fpm.log"
+echo "PHP runs in Apache through php-apache (no PHP-FPM process)."
 echo "Apache logs: $PREFIX/var/log/sbstats/apache-error.log"
