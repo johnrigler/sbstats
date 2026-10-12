@@ -5,6 +5,8 @@ A NoSQL charting solution based on GD Graphics.
 
 Modern example: [ISO-week Solana charts and viewer](examples/solana/README.md). The legacy PHP/GD implementation remains unchanged.
 
+Solana ecosystem walkthrough: [roles, links, mint lookups and demonstration](examples/solana/ecosystem.html). This is a static, read-only guide; it neither trades nor deploys tokens.
+
 Solana token discovery: [registry](examples/solana/tokens.json), [read-only collector](tools/collect_solana_market.py), and [usage / limitations](docs/solana-token-discovery.md).
 
 Quick start from the repository root:
