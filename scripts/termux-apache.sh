@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Start Apache + PHP-FPM on Termux without PHP's broken CLI-server lock.
+# Start Apache + embedded PHP using prefork MPM on Termux.
 set -euo pipefail
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 PREFIX="${PREFIX:-/data/data/com.termux/files/usr}"
@@ -31,6 +31,16 @@ cp "$PREFIX/etc/apache2/httpd.conf" "$PRIVATECONF"
 # Apache's default may include conf.d through a wildcard, including files we
 # previously generated. Remove inherited includes from this private copy.
 sed -i '/^[[:space:]]*IncludeOptional[[:space:]]/d; /^[[:space:]]*Include[[:space:]]/d' "$PRIVATECONF"
+# Non-ZTS php-apache requires prefork. The Termux default uses worker.
+PREFORK="$PREFIX/libexec/apache2/mod_mpm_prefork.so"
+if [[ ! -f "$PREFORK" ]]; then
+  echo "PHP Apache requires prefork, but $PREFORK is absent." >&2
+  echo "Installed Apache cannot run non-thread-safe php-apache. No fallback to worker." >&2
+  exit 1
+fi
+sed -i -E '/^[[:space:]]*LoadModule[[:space:]]+mpm_(worker|event|prefork)_module[[:space:]]/d' "$PRIVATECONF"
+printf '\nLoadModule mpm_prefork_module "%s"\n' "$PREFORK" >> "$PRIVATECONF"
+
 : > "$MODULECONF"
 for spec in "rewrite rewrite_module" "php php_module"; do
  read -r name module <<< "$spec"
