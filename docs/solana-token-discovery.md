@@ -43,16 +43,12 @@ Source documentation: https://docs.dexscreener.com/api/reference
 3. Add separate social observation records, including source and collection timestamp.
 4. Derive ISO-week displays from actual UTC observations, never from rolling 24h snapshots.
 
-## Rank the discovered candidates (TypeScript)
+## Rank the discovered candidates (Python)
 
-The optional TypeScript tool analyzes all saved boosted candidates and writes an
-activity-based top ten. It uses Deno to execute TypeScript directly; no Node.js,
-transpiler or package dependencies. Install Deno separately if needed:
+The Python standard-library ranking tool analyzes saved boosted candidates and writes an activity-based top ten. No Deno, Node.js, or pip installation required:
 
 ```sh
-deno run --allow-read --allow-write --allow-net=api.dexscreener.com \
-  tools/rank_solana_candidates.ts \
-  examples/solana/market/discovery/YYYY-MM-DD.json
+python3 tools/rank_solana_candidates.py examples/solana/market/discovery/YYYY-MM-DD.json
 ```
 
 Replace `YYYY-MM-DD` with the actual UTC discovery date. Results are saved
@@ -78,5 +74,5 @@ The "Load latest repository discovery" button looks for files in the adjacent
 `market/discovery/` and `market/rankings/` directories for today or yesterday UTC.
 For older data or data not committed to GitHub, use the file picker.
 
-The ranking TypeScript output now retains the original links. Existing ranking
+The ranking Python output retains the original links. Existing ranking
 files made before this update must be regenerated to contain them.
