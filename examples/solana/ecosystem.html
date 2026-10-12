@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SB Stats | Solana ecosystem</title>
+<style>
+:root{font:16px system-ui;color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#111a23;color:#e7edf5}main{max-width:1050px;margin:auto;padding:18px;line-height:1.5}a{color:#8bd5ff}h1{margin-bottom:4px}h2{margin-top:32px}.muted,small{color:#b2c2d2}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px}.card{background:#1b2b3a;border:1px solid #43596c;border-radius:10px;padding:16px}.card h3{margin:0 0 8px}.card p{margin:7px 0}.links{display:flex;gap:10px;flex-wrap:wrap;margin-top:9px}nav{display:flex;gap:12px;flex-wrap:wrap}ol li{margin-bottom:10px}.tag{font-size:12px;border:1px solid #61778a;border-radius:20px;padding:3px 9px;display:inline-block;margin-bottom:8px}code{overflow-wrap:anywhere}button{font:inherit;background:#263e51;color:white;border:1px solid #6b91b0;border-radius:6px;padding:8px;cursor:pointer}#state{color:#b2c2d2}
+</style></head><body><main>
+<nav><a href="candidates.html">Candidate explorer</a><a href="index.html">Solana week charts</a><a href="../../README.md">Repository</a></nav>
+<h1>SB Stats / Solana ecosystem map</h1>
+<p class="muted">A technical guide to the interfaces surrounding a Solana token. These are different roles, not exclusive company categories. All sites are third parties; links are not endorsements.</p>
+<div id="catalog" class="grid"></div>
+<h2>Live demonstration: one mint, multiple views</h2>
+<ol>
+<li>Select an active token in <a href="candidates.html">SB Stats candidate explorer</a>. A boosted listing is paid discovery, not evidence of merit.</li>
+<li>Copy its <strong>exact mint address</strong>. Symbols and names are ambiguous.</li>
+<li>Inspect the mint, token accounts, authorities, ownership concentration, and relevant on-chain programs in an explorer.</li>
+<li>Open its market listing and identify the pair/pool address, DEX, liquidity, volume window, and available route. Distinguish reported figures from independently verified chain data.</li>
+<li>Observe the token's claimed website, X, and Telegram links. A link is an unverified association, not evidence of organizer identity or coordination.</li>
+<li>Connect a wallet only to a verified domain. Differentiate wallet connection, message-signing login, transaction authorization, and program execution.</li>
+<li>For a trade demonstration, start with a <strong>read-only quote and transaction simulation</strong>; optionally sign a small normal swap. Match the transaction signature on SB Stats, the explorer, and the public feed. Do not manufacture activity or manipulate prices.</li>
+<li>Transition to Mogwai: the public ledger remains accessible independently of any single trading interface. Cross-chain representations and reconstructed indexes require explicit protocol definitions and verification.</li>
+</ol>
+<section class="card"><h3>Inspect a mint</h3><p>Enter a verified Solana mint to generate independent explorer and market lookup links. This page does not connect to wallets or execute trades.</p><input id="mint" placeholder="Solana mint address" aria-label="Exact mint address" style="width:100%;font:inherit;padding:10px;background:#12202e;color:white;border:1px solid #71889d;border-radius:7px"><p><button id="inspect">Build lookup links</button></p><p id="state" role="status"></p><div class="links" id="mintlinks"></div></section>
+<h2>Separate engineering tracks</h2>
+<div class="grid">
+<section class="card"><span class="tag">Observation</span><h3>SB Stats</h3><p>Read-only Solana discovery, exact-mint indexing, pool observations, wallet and trade research, and reproducible analytics. Future AI research can propose hypotheses; deterministic code should perform verification and enforce limits.</p></section>
+<section class="card"><span class="tag">Execution research</span><h3>Agent / swaps / liquidity</h3><p>Quote, simulate, decode instructions, calculate network/program/platform/LP costs, optionally submit wallet-authorized swaps. Position management and LP simulation belong in separate modules, not the discovery collector.</p></section>
+<section class="card"><span class="tag">Issuance</span><h3>Token creation is different</h3><p>On Solana, an SPL or Token-2022 mint and its authorities, metadata, accounts and liquidity configuration must be designed. Minting a token does not automatically create a market, liquidity, or demand.</p></section>
+<section class="card"><span class="tag">Cross-chain research</span><h3>Zorkmid / EVM</h3><p>Keep Zorkmid's proposed EVM token architecture in separate ETHDenver notes. ERC-20, deployment, contract roles, supply policy, fees and security are distinct from Solana token minting and trading research. Nothing on this page deploys or issues Zorkmid.</p></section>
+</div>
+<p class="muted">Safety: simulation first; never enter seed phrases, private keys or API secrets in this page. Do not infer Telegram collusion from branding or links alone. No investment recommendations or guaranteed trading edge.</p>
+<script>
+'use strict';
+const buckets=[
+{category:'Launchpads / token creation',description:'Issue a token; some launchpads provide initial price discovery via bonding curves or other mechanisms.',sites:[['Pump.fun','https://pump.fun'],['LetsBONK','https://letsbonk.fun']]},
+{category:'Market discovery / analytics',description:'Display chart candles, pools, boosts, liquidity and trades. Attention rankings may mix organic activity with paid placement.',sites:[['DEX Screener','https://dexscreener.com'],['Birdeye','https://birdeye.so']]},
+{category:'DEX / liquidity',description:'On-chain programs and pools that execute swaps and distribute fees subject to their rules.',sites:[['Raydium','https://raydium.io'],['Orca','https://www.orca.so']]},
+{category:'Swap aggregation',description:'Choose routes across venues; aggregation, swap program and service fees can differ.',sites:[['Jupiter','https://jup.ag']]},
+{category:'Trading terminals / bots',description:'Interfaces for fast entries, portfolio tracking and execution. Check any extra platform fees.',sites:[['Axiom','https://axiom.trade'],['BullX','https://bullx.io']]},
+{category:'Wallets / authorization',description:'Hold or control keys, expose public addresses, sign messages, and authorize transactions.',sites:[['Backpack','https://backpack.app'],['Phantom','https://phantom.com'],['Solflare','https://solflare.com']]},
+{category:'Block explorers',description:'Independently inspect accounts, signatures, instructions, program IDs and token balances.',sites:[['Solscan','https://solscan.io'],['Solana Explorer','https://explorer.solana.com']]},
+{category:'Social / attention',description:'Announcements, paid signal groups, communities and promotions. Claims of coordinated trading require evidence.',sites:[['Telegram','https://telegram.org'],['X','https://x.com']]},
+{category:'Independent data / agent',description:'SB Stats collects observations. A future agent can inspect the same mint, prepare quotes and analyze liquidity without depending on a particular trading UI.',sites:[['SB Stats candidates','candidates.html']]}
+];
+const root=document.getElementById('catalog');
+for(const b of buckets){const article=document.createElement('section');article.className='card';const title=document.createElement('h3');title.textContent=b.category;const desc=document.createElement('p');desc.textContent=b.description;const links=document.createElement('div');links.className='links';for(const [name,url] of b.sites){const a=document.createElement('a');a.href=url;a.textContent=name;a.target='_blank';a.rel='noopener noreferrer';links.append(a)}article.append(title,desc,links);root.append(article)}
+document.getElementById('inspect').addEventListener('click',()=>{
+const mint=document.getElementById('mint').value.trim(),links=document.getElementById('mintlinks'),state=document.getElementById('state');
+links.replaceChildren();
+if(!/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(mint)){state.textContent='Enter a syntactically valid base58 mint address (32–44 characters); this does not verify that the account is a token mint.';return}
+state.textContent='Lookup links generated. Verify that the account is an actual mint and confirm its programs and pools independently.';
+for(const [label,url] of [['Solscan mint','https://solscan.io/token/'+encodeURIComponent(mint)],['Solana Explorer account','https://explorer.solana.com/address/'+encodeURIComponent(mint)],['DEX Screener token lookup','https://dexscreener.com/solana/'+encodeURIComponent(mint)]]){const a=document.createElement('a');a.textContent=label;a.href=url;a.target='_blank';a.rel='noopener noreferrer';links.append(a)}
+});
+</script></main></body></html>
