@@ -67,3 +67,16 @@ converting failed requests to zero activity.
 These are rolling 24-hour DEX Screener snapshots, not precise UTC-day counts or
 wallet counts. This list represents *boosted candidates only*, not a top ten of
 every Solana token.
+
+## Candidate explorer
+
+Open `examples/solana/candidates.html` on a static server or as a local file.
+Use its file picker to load the discovery JSON and, optionally, the matching dated
+ranking JSON. Cards expose mint, market metrics, claimed website/social URLs,
+and Solscan/DEX Screener reference links. Claims are not automatically verified.
+The "Load latest repository discovery" button looks for files in the adjacent
+`market/discovery/` and `market/rankings/` directories for today or yesterday UTC.
+For older data or data not committed to GitHub, use the file picker.
+
+The ranking TypeScript output now retains the original links. Existing ranking
+files made before this update must be regenerated to contain them.
