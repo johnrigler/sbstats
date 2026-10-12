@@ -25,6 +25,10 @@ python3 tools/rank_solana_candidates.py examples/solana/market/discovery/YYYY-MM
 
 Explore results in [the static candidate viewer](examples/solana/candidates.html). No Deno or Node.js needed.
 
+## Daily append-only archive
+
+[Journal, optional overlay JSON and self-contained PNG archive](docs/daily-journal-archive.md) are supported by [tools/daily_archive.py](tools/daily_archive.py). This separate utility can append timestamped observations, render and verify compressed embedded PNG data, and optionally purge a completed day's journal after verification. It is not yet connected to the five-minute Solana collector or cron. No automatic purging of PNGs.
+
 ## ETHDenver 2027 coordination
 
 See [the project-specific ETHDenver / Zorkmid notes](docs/ethdenver-participation-metrics.md) for the proposed physical dartboard demonstration, conference materials, optional Zorkmid/ Base integration, and delivery gates. These are plans, not claims that a token, venue, or showcase is live.
