@@ -1,0 +1,848 @@
+{
+  "schema": "sbstats/candidate-ranking-v1",
+  "date_utc": "2026-10-12",
+  "collected_at_utc": "2026-10-12T02:21:04.737539+00:00",
+  "source": "https://api.dexscreener.com/token-pairs/v1/solana/{mint}",
+  "input": "examples/solana/market/discovery/2026-10-12.json",
+  "definition": "Paid-boost discovery ranked by highest-liquidity matching Solana pool",
+  "min_liquidity_usd": 100000,
+  "scoring": "45% log volume + 35% log liquidity + 20% log trades; no boost or social score",
+  "caveats": [
+    "Not top Solana tokens overall",
+    "Not verified on-chain transfers",
+    "Telegram links are unverified claims",
+    "Failed API calls are not scored as zero",
+    "Rolling 24h vendor snapshot, not a UTC daily total"
+  ],
+  "top_ten": [
+    "2j5SaS7xy776qCBpyPQbZjyQSAtKiFgrwjfErthnW2ZM",
+    "8PGyHCKvSUjezHkV7KLwMacnmSJLe1YbRM1zvDVApump",
+    "HMYd9tosnUXuNHmq7pXmoePRVBLBBjA3JBfydq6upump",
+    "9XKzy4KahcZaGJPJtz1PtqGPB3CiseoBrx7TcQhEpump"
+  ],
+  "candidates": [
+    {
+      "rank": 1,
+      "mint": "2j5SaS7xy776qCBpyPQbZjyQSAtKiFgrwjfErthnW2ZM",
+      "name": "Claudia",
+      "symbol": "CLAUDIA",
+      "eligible": true,
+      "score": 88.13,
+      "liquidity_usd": 676810.73,
+      "volume_24h_usd": 1319473.61,
+      "transactions_24h": 4617.0,
+      "price_change_24h_percent": 12.57,
+      "pair_address": "DfHEafDf9vk6tJzo7UEUQK6hMWnikzFvvW55WsxDyJuU",
+      "dex": "meteora",
+      "boost_amount": null,
+      "total_boost_amount": 10.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/dfheafdf9vk6tjzo7ueuqk6hmwnikzfvvw55wsxdyjuu",
+      "claimed_url": "https://dexscreener.com/solana/2j5sas7xy776qcbpypqbzjyqsatkifgrwjferthnw2zm",
+      "links_unverified": [
+        {
+          "url": "https://claudia.gallery/"
+        },
+        {
+          "url": "https://x.com/SolClaudia_"
+        },
+        {
+          "url": "https://useclaudia.xyz/"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/claudia_onchain"
+        }
+      ],
+      "reason": null
+    },
+    {
+      "rank": 2,
+      "mint": "8PGyHCKvSUjezHkV7KLwMacnmSJLe1YbRM1zvDVApump",
+      "name": "Sean Dynasty Prosper",
+      "symbol": "SEAN",
+      "eligible": true,
+      "score": 87.28,
+      "liquidity_usd": 122143.86,
+      "volume_24h_usd": 2144408.56,
+      "transactions_24h": 34970.0,
+      "price_change_24h_percent": 1272.0,
+      "pair_address": "CnVst3sUYmo1GFYgnaNgygpQhwTNZzmb59wyyzQF1nvJ",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 500.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/cnvst3suymo1gfygnangygpqhwtnzzmb59wyyzqf1nvj",
+      "claimed_url": "https://dexscreener.com/solana/8pgyhckvsujezhkv7klwmacnmsjle1ybrm1zvdvapump",
+      "links_unverified": [
+        {
+          "url": "https://seandynasty.me"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/SeanDynastyX"
+        }
+      ],
+      "reason": null
+    },
+    {
+      "rank": 3,
+      "mint": "HMYd9tosnUXuNHmq7pXmoePRVBLBBjA3JBfydq6upump",
+      "name": "Super Intelligence SI276",
+      "symbol": "SI276",
+      "eligible": true,
+      "score": 81.12,
+      "liquidity_usd": 116351.4,
+      "volume_24h_usd": 303869.06,
+      "transactions_24h": 7599.0,
+      "price_change_24h_percent": 47.18,
+      "pair_address": "12jc1DzJpzbCDaKuM4brAKh9jcFry2TLG1FfGsL4ftCG",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 110.0,
+      "telegram_claimed": true,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/12jc1dzjpzbcdakum4brakh9jcfry2tlg1ffgsl4ftcg",
+      "claimed_url": "https://dexscreener.com/solana/hmyd9tosnuxunhmq7pxmoeprvblbbja3jbfydq6upump",
+      "links_unverified": [
+        {
+          "url": "https://si276.xyz"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/si276_xyz"
+        },
+        {
+          "type": "telegram",
+          "url": "https://t.me/si276_official"
+        }
+      ],
+      "reason": null
+    },
+    {
+      "rank": 4,
+      "mint": "9XKzy4KahcZaGJPJtz1PtqGPB3CiseoBrx7TcQhEpump",
+      "name": "Gomo App",
+      "symbol": "GOMO",
+      "eligible": true,
+      "score": 79.04,
+      "liquidity_usd": 122397.66,
+      "volume_24h_usd": 366015.74,
+      "transactions_24h": 2180.0,
+      "price_change_24h_percent": 36.76,
+      "pair_address": "5a7QurJLARt146JajJYPe5nh6vLyFpN2QrHUSLqbsCZy",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 100.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/5a7qurjlart146jajjype5nh6vlyfpn2qrhuslqbsczy",
+      "claimed_url": "https://dexscreener.com/solana/9xkzy4kahczagjpjtz1ptqgpb3ciseobrx7tcqhepump",
+      "links_unverified": [
+        {
+          "url": "https://gomofamily.life/"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/gomo_family"
+        }
+      ],
+      "reason": null
+    },
+    {
+      "rank": null,
+      "mint": "3qMx2ZFFxFBjYPrwCyngGXNizeAFnNBrimhPQZcjpump",
+      "name": "Wednesday Adams",
+      "symbol": "WEDNESDAY",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": 23279.72,
+      "volume_24h_usd": 231536.64,
+      "transactions_24h": 6159.0,
+      "price_change_24h_percent": 48.78,
+      "pair_address": "2DEXa5cXRkWPVd91TBKZLwxiX52NWNqwLGvvH58zds3A",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 100.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/2dexa5cxrkwpvd91tbkzlwxix52nwnqwlgvvh58zds3a",
+      "claimed_url": "https://dexscreener.com/solana/3qmx2zffxfbjyprwcynggxnizeafnnbrimhpqzcjpump",
+      "links_unverified": [
+        {
+          "url": "https://wednesdayadams.fun"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/WEDNESDAYSOL_"
+        },
+        {
+          "type": "tiktok",
+          "url": "https://www.tiktok.com/@wednesdaye0?_r=1&_t=ZP-9AT3xQ0vP26"
+        }
+      ],
+      "reason": "Below liquidity threshold"
+    },
+    {
+      "rank": null,
+      "mint": "5xSd95Df7g3274RahvehZcuRPsuoYu9ippdiMS6xpump",
+      "name": "Claudia Phil",
+      "symbol": "CLAUDIAPHIL",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": null,
+      "volume_24h_usd": 100909.99,
+      "transactions_24h": 974.0,
+      "price_change_24h_percent": 547.0,
+      "pair_address": "C8jeTU5LgPGCDd6pCNhB8RPho92Jfr9S3RYK1dtFz7Qq",
+      "dex": "pumpfun",
+      "boost_amount": null,
+      "total_boost_amount": 500.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/c8jetu5lgpgcdd6pcnhb8rpho92jfr9s3ryk1dtfz7qq",
+      "claimed_url": "https://dexscreener.com/solana/5xsd95df7g3274rahvehzcurpsuoyu9ippdims6xpump",
+      "links_unverified": [
+        {
+          "type": "twitter",
+          "url": "https://x.com/claudiaphil_sol?s=11"
+        }
+      ],
+      "reason": "Missing liquidity data"
+    },
+    {
+      "rank": null,
+      "mint": "6KDpQM4BVDdtAkjtyFDiBCkbii8q8BieEyXXm6kNpump",
+      "name": "TeleMoney",
+      "symbol": "TM",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": 75323.46,
+      "volume_24h_usd": 1154225.13,
+      "transactions_24h": 11796.0,
+      "price_change_24h_percent": 58.42,
+      "pair_address": "ARcvd2GiVSmz7oR2ozpe3KzVBadsVrEav5DdnVJ8sjhK",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 50.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/arcvd2givsmz7or2ozpe3kzvbadsvreav5ddnvj8sjhk",
+      "claimed_url": "https://dexscreener.com/solana/6kdpqm4bvddtakjtyfdibckbii8q8bieeyxxm6knpump",
+      "links_unverified": [
+        {
+          "url": "https://www.telemoney.site/"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/TeleMoneySOL"
+        }
+      ],
+      "reason": "Below liquidity threshold"
+    },
+    {
+      "rank": null,
+      "mint": "6hTLdzZaaCjmqtn7RtaEMQsCbXT5Pg8q76tRViEGpump",
+      "name": "Abu Shalab",
+      "symbol": "ABU",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": 66563.86,
+      "volume_24h_usd": 277286.65,
+      "transactions_24h": 3990.0,
+      "price_change_24h_percent": 11.47,
+      "pair_address": "2qWF4dn1JnqhCpAYJQnKVaKezzuUiG4xdnbnCSK1Pgcw",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 10.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/2qwf4dn1jnqhcpayjqnkvakezzuuig4xdnbncsk1pgcw",
+      "claimed_url": "https://dexscreener.com/solana/6htldzzaacjmqtn7rtaemqscbxt5pg8q76trviegpump",
+      "links_unverified": [
+        {
+          "url": "https://linktr.ee/abushalab"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/AbuShalab_"
+        },
+        {
+          "type": "tiktok",
+          "url": "https://www.tiktok.com/@abu.shalab"
+        },
+        {
+          "type": "instagram",
+          "url": "https://www.instagram.com/abu.shalab"
+        }
+      ],
+      "reason": "Below liquidity threshold"
+    },
+    {
+      "rank": null,
+      "mint": "7qb9SHKCD6rFEso3xHWjARbrLgxg6MZF6wZZMAGqpump",
+      "name": "Claudia's Boyfriend",
+      "symbol": "CLAUD",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": 48612.93,
+      "volume_24h_usd": 1892643.87,
+      "transactions_24h": 25530.0,
+      "price_change_24h_percent": 24.2,
+      "pair_address": "qgayV4tnkPV85QVGfaVWUxXuqngYwcVa2dTe5iT3Bpi",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 50.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/qgayv4tnkpv85qvgfavwuxxuqngywcva2dte5it3bpi",
+      "claimed_url": "https://dexscreener.com/solana/7qb9shkcd6rfeso3xhwjarbrlgxg6mzf6wzzmagqpump",
+      "links_unverified": [
+        {
+          "url": "https://claudbyclaudia.lol/"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/claudbyclaudia"
+        }
+      ],
+      "reason": "Below liquidity threshold"
+    },
+    {
+      "rank": null,
+      "mint": "83VvwNdSm66YRbLWWNEQGrudb2Jv1fuNa7hf9DDqpump",
+      "name": "Flap World",
+      "symbol": "FWD",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": null,
+      "volume_24h_usd": 1818.51,
+      "transactions_24h": 68.0,
+      "price_change_24h_percent": 3.04,
+      "pair_address": "Ff6Kfnu51Jhb5kED22gfFXavq8HMp8tfAbq9RWa8LRRn",
+      "dex": "pumpfun",
+      "boost_amount": null,
+      "total_boost_amount": 30.0,
+      "telegram_claimed": true,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/ff6kfnu51jhb5ked22gffxavq8hmp8tfabq9rwa8lrrn",
+      "claimed_url": "https://dexscreener.com/solana/83vvwndsm66yrblwwneqgrudb2jv1funa7hf9ddqpump",
+      "links_unverified": [
+        {
+          "url": "https://flapworld.fun/"
+        },
+        {
+          "url": "https://flapworld.fun/docs.html"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/FlapWorld26"
+        },
+        {
+          "type": "telegram",
+          "url": "https://t.me/FlapWorld"
+        }
+      ],
+      "reason": "Missing liquidity data"
+    },
+    {
+      "rank": null,
+      "mint": "8YeBTPV58fH6tnzUAihMK1LixsGc1jsN7DAyBoiRpump",
+      "name": "Zhunt",
+      "symbol": "ZNT",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": 16650.42,
+      "volume_24h_usd": 71361.39,
+      "transactions_24h": 1091.0,
+      "price_change_24h_percent": -11.65,
+      "pair_address": "Fs3SDG433BXtcbtubMEUk38v5q381Y2JKJyJTrsTWVbf",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 130.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/fs3sdg433bxtcbtubmeuk38v5q381y2jkjyjtrstwvbf",
+      "claimed_url": "https://dexscreener.com/solana/8yebtpv58fh6tnzuaihmk1lixsgc1jsn7dayboirpump",
+      "links_unverified": [
+        {
+          "url": "https://zhunt.xyz/"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/ZHUNTznt"
+        }
+      ],
+      "reason": "Below liquidity threshold"
+    },
+    {
+      "rank": null,
+      "mint": "8k4sBtEeK4pf26noKqApv8NBTnuSJcbdwpKYknk5PbAA",
+      "name": "CALI",
+      "symbol": "CALI",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": 91858.8,
+      "volume_24h_usd": 264774.43,
+      "transactions_24h": 4093.0,
+      "price_change_24h_percent": 14.81,
+      "pair_address": "2i2iULr7UwK1SDRB17T5FUtiMnFQL7fyy7rh69brZihc",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 10.0,
+      "telegram_claimed": true,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/2i2iulr7uwk1sdrb17t5futimnfql7fyy7rh69brzihc",
+      "claimed_url": "https://dexscreener.com/solana/8k4sbteek4pf26nokqapv8nbtnusjcbdwpkyknk5pbaa",
+      "links_unverified": [
+        {
+          "type": "twitter",
+          "url": "https://x.com/calithefanpage"
+        },
+        {
+          "type": "telegram",
+          "url": "https://t.me/CaliTheTerrier"
+        }
+      ],
+      "reason": "Below liquidity threshold"
+    },
+    {
+      "rank": null,
+      "mint": "8yZVkceGGoqxDWhVC8TVRtfy3Xq1brZomZLvujBnpump",
+      "name": "Pepe Doge",
+      "symbol": "PEGE",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": 2828.43,
+      "volume_24h_usd": 396793.43,
+      "transactions_24h": 16276.0,
+      "price_change_24h_percent": -97.91,
+      "pair_address": "3yBGZSgvBnsJD5xkdM8h7Yh84p2ZEChMgVPtX71Dpewf",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 30.0,
+      "telegram_claimed": true,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/3ybgzsgvbnsjd5xkdm8h7yh84p2zechmgvptx71dpewf",
+      "claimed_url": "https://dexscreener.com/solana/8yzvkceggoqxdwhvc8tvrtfy3xq1brzomzlvujbnpump",
+      "links_unverified": [
+        {
+          "url": "https://pepedoge.lol"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/pepedoge_x"
+        },
+        {
+          "type": "telegram",
+          "url": "https://t.me/pepedoge_tg"
+        }
+      ],
+      "reason": "Below liquidity threshold"
+    },
+    {
+      "rank": null,
+      "mint": "9rAp7ddXNDFSR7wYDcUwhabpo2BLKcPbb9Qm6S1Tpump",
+      "name": "Super Quantum Inu",
+      "symbol": "SQI",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": null,
+      "volume_24h_usd": 27607.26,
+      "transactions_24h": 665.0,
+      "price_change_24h_percent": 180.0,
+      "pair_address": "3xs6qzj5QFMoc7pqth42KdsmQWEgiu4hMvuFWjPmoZ5a",
+      "dex": "pumpfun",
+      "boost_amount": null,
+      "total_boost_amount": 30.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/3xs6qzj5qfmoc7pqth42kdsmqwegiu4hmvufwjpmoz5a",
+      "claimed_url": "https://dexscreener.com/solana/9rap7ddxndfsr7wydcuwhabpo2blkcpbb9qm6s1tpump",
+      "links_unverified": [
+        {
+          "type": "twitter",
+          "url": "https://x.com/SuperQantumInu"
+        }
+      ],
+      "reason": "Missing liquidity data"
+    },
+    {
+      "rank": null,
+      "mint": "AVfEas6mLgkXNvVWcc6qeHLpYeA8nRx42iB9WBKhpump",
+      "name": "GomoDoge",
+      "symbol": "GOMODOGE",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": 47129.32,
+      "volume_24h_usd": 465972.94,
+      "transactions_24h": 4599.0,
+      "price_change_24h_percent": 35.54,
+      "pair_address": "2JU6tUmem5LrSA3SNpTrSYjqGysjqTgs4RwX858sVN3A",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 30.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/2ju6tumem5lrsa3snptrsyjqgysjqtgs4rwx858svn3a",
+      "claimed_url": "https://dexscreener.com/solana/avfeas6mlgkxnvvwcc6qehlpyea8nrx42ib9wbkhpump",
+      "links_unverified": [
+        {
+          "url": "https://thegomodoge.site"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/thegomodoge"
+        }
+      ],
+      "reason": "Below liquidity threshold"
+    },
+    {
+      "rank": null,
+      "mint": "AqUPRnyFCRuMqKYgY5Tf64CFshFecuaGSGXx4cqqpump",
+      "name": "Artificial Internet Cat",
+      "symbol": "9LIVES",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": 2689.34,
+      "volume_24h_usd": 273641.59,
+      "transactions_24h": 11965.0,
+      "price_change_24h_percent": -94.32,
+      "pair_address": "ENtnEE6cmK1nfqKd6keZe1eGL6HmRBqYVyXRsWcBeQJP",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 10.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/entnee6cmk1nfqkd6keze1egl6hmrbqyvyxrswcbeqjp",
+      "claimed_url": "https://dexscreener.com/solana/aquprnyfcrumqkygy5tf64cfshfecuagsgxx4cqqpump",
+      "links_unverified": [
+        {
+          "url": "https://artificialinternetcat.fun/"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/9livesagent"
+        }
+      ],
+      "reason": "Below liquidity threshold"
+    },
+    {
+      "rank": null,
+      "mint": "AsKLGUkBYh4hrPvZYLZ7VoKCzvrYccXUnNfMxPRspump",
+      "name": "Meowfu",
+      "symbol": "Meowfu",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": null,
+      "volume_24h_usd": 143990.27,
+      "transactions_24h": 1188.0,
+      "price_change_24h_percent": 15.5,
+      "pair_address": "AVzNNhbdU2Cwn1vtCfe6X4gHEcZfLbiCxS88nScoujfE",
+      "dex": "pumpfun",
+      "boost_amount": null,
+      "total_boost_amount": 30.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/avznnhbdu2cwn1vtcfe6x4gheczflbicxs88nscoujfe",
+      "claimed_url": "https://dexscreener.com/solana/asklgukbyh4hrpvzylz7vokczvryccxunnfmxprspump",
+      "links_unverified": [
+        {
+          "url": "https://meowfusol.com/"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/i/communities/2006378925685956711"
+        }
+      ],
+      "reason": "Missing liquidity data"
+    },
+    {
+      "rank": null,
+      "mint": "CnvQ6v525Mx4FSNNYwXVaiH2wboEMVdjxPhUjkpqpump",
+      "name": "Dogeus Maximus",
+      "symbol": "DOGEUS",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": 2744.55,
+      "volume_24h_usd": 876095.96,
+      "transactions_24h": 34096.0,
+      "price_change_24h_percent": -98.25,
+      "pair_address": "7XhejrcUgjh6S5dZ91GsXcWUk41vMDg6bnJ9tEe5wZ5q",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 30.0,
+      "telegram_claimed": true,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/7xhejrcugjh6s5dz91gsxcwuk41vmdg6bnj9tee5wz5q",
+      "claimed_url": "https://dexscreener.com/solana/cnvq6v525mx4fsnnywxvaih2wboemvdjxphujkpqpump",
+      "links_unverified": [
+        {
+          "url": "https://www.dogeusmaximussol.site"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/DOGEUS_sol"
+        },
+        {
+          "type": "telegram",
+          "url": "https://t.me/DOGEUS_sol"
+        }
+      ],
+      "reason": "Below liquidity threshold"
+    },
+    {
+      "rank": null,
+      "mint": "DJmjkGCE6mHBeAwEFU6Dm8Jx5XLckZVFL4njwkr7fU6j",
+      "name": "Charter",
+      "symbol": "CHARTER",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": null,
+      "volume_24h_usd": 8428.2,
+      "transactions_24h": 122.0,
+      "price_change_24h_percent": 2.66,
+      "pair_address": "FXuzZUP9edk7MVGaUfhPmF5UY8RnGhoBa34Nif217JHY",
+      "dex": "meteoradbc",
+      "boost_amount": null,
+      "total_boost_amount": 30.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/fxuzzup9edk7mvgaufhpmf5uy8rnghoba34nif217jhy",
+      "claimed_url": "https://dexscreener.com/solana/djmjkgce6mhbeawefu6dm8jx5xlckzvfl4njwkr7fu6j",
+      "links_unverified": [
+        {
+          "url": "https://charterpad.fun/"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/usecharterpad"
+        }
+      ],
+      "reason": "Missing liquidity data"
+    },
+    {
+      "rank": null,
+      "mint": "Dqf2t2FyomGyv9XGPw33vMfomxdaXbxt75DDXmAn833T",
+      "name": "Caton",
+      "symbol": "CATON",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": null,
+      "volume_24h_usd": 27284.67,
+      "transactions_24h": 802.0,
+      "price_change_24h_percent": 33.68,
+      "pair_address": "8GZm1LjmAxeyJUCmax8RJkU1f3Tvz21Fdje99vMtVKij",
+      "dex": "pumpfun",
+      "boost_amount": null,
+      "total_boost_amount": 50.0,
+      "telegram_claimed": true,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/8gzm1ljmaxeyjucmax8rjku1f3tvz21fdje99vmtvkij",
+      "claimed_url": "https://dexscreener.com/solana/dqf2t2fyomgyv9xgpw33vmfomxdaxbxt75ddxman833t",
+      "links_unverified": [
+        {
+          "type": "twitter",
+          "url": "https://x.com/caton_onsol"
+        },
+        {
+          "type": "telegram",
+          "url": "https://t.me/caton_onsol"
+        }
+      ],
+      "reason": "Missing liquidity data"
+    },
+    {
+      "rank": null,
+      "mint": "E4RBgJjWwAQjpcnYGyLBnuPjUi8ptBwr32Nroo8bpump",
+      "name": "the pumpfun number",
+      "symbol": "19",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": null,
+      "volume_24h_usd": 6443.93,
+      "transactions_24h": 104.0,
+      "price_change_24h_percent": 6.79,
+      "pair_address": "Eh98p2u8zrtPV6yp5NzWTyeiFXf4SgZ9LLR7Vbb6bnQy",
+      "dex": "pumpfun",
+      "boost_amount": null,
+      "total_boost_amount": 30.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/eh98p2u8zrtpv6yp5nzwtyeifxf4sgz9llr7vbb6bnqy",
+      "claimed_url": "https://dexscreener.com/solana/e4rbgjjwwaqjpcnygylbnupjui8ptbwr32nroo8bpump",
+      "links_unverified": [
+        {
+          "type": "twitter",
+          "url": "https://x.com/thepumpnumber/status/2107085701380706448"
+        }
+      ],
+      "reason": "Missing liquidity data"
+    },
+    {
+      "rank": null,
+      "mint": "EH8UxWnpMukpq48NF1hGV6hBGdo9EKGq1YzcXaUPpump",
+      "name": "DOGEPAY",
+      "symbol": "DOGEPAY",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": 2574.58,
+      "volume_24h_usd": 1147995.21,
+      "transactions_24h": 44764.0,
+      "price_change_24h_percent": -98.35,
+      "pair_address": "C5okyQBfcdyUqogN2fFFMMyR7PdEZW17vdnBqQMuxW4U",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 30.0,
+      "telegram_claimed": true,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/c5okyqbfcdyuqogn2fffmmyr7pdezw17vdnbqqmuxw4u",
+      "claimed_url": "https://dexscreener.com/solana/eh8uxwnpmukpq48nf1hgv6hbgdo9ekgq1yzcxauppump",
+      "links_unverified": [
+        {
+          "url": "https://dogepay.site"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/dogepaysol"
+        },
+        {
+          "type": "telegram",
+          "url": "https://t.me/dogepaysol"
+        }
+      ],
+      "reason": "Below liquidity threshold"
+    },
+    {
+      "rank": null,
+      "mint": "EQ46GCkgPctvueFDt2edutfa1hKxsDzo2EZeSMiHpump",
+      "name": "trenchcat",
+      "symbol": "trenchcat",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": 31919.59,
+      "volume_24h_usd": 1055329.28,
+      "transactions_24h": 25231.0,
+      "price_change_24h_percent": 169.0,
+      "pair_address": "3yvBGUSj2cPmtMJHVBPJCJUVNE1nLB463JZxTwjQKqro",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 10.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/3yvbgusj2cpmtmjhvbpjcjuvne1nlb463jzxtwjqkqro",
+      "claimed_url": "https://dexscreener.com/solana/eq46gckgpctvuefdt2edutfa1hkxsdzo2ezesmihpump",
+      "links_unverified": [
+        {
+          "type": "twitter",
+          "url": "https://x.com/trenchcat_OG"
+        }
+      ],
+      "reason": "Below liquidity threshold"
+    },
+    {
+      "rank": null,
+      "mint": "FdZRSoq4MfUPkqAi8mipJ9UaFYu8gfDCwCfw76YZpump",
+      "name": "area51kitty",
+      "symbol": "Glorp",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": 32259.55,
+      "volume_24h_usd": 942587.82,
+      "transactions_24h": 17208.0,
+      "price_change_24h_percent": 145.0,
+      "pair_address": "EdV32pDiDmuFSsEbA9DB97VziSfSRXDdUQ7WCPRJwzEP",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 10.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/edv32pdidmufsseba9db97vzisfsrxdduq7wcprjwzep",
+      "claimed_url": "https://dexscreener.com/solana/fdzrsoq4mfupkqai8mipj9uafyu8gfdcwcfw76yzpump",
+      "links_unverified": [
+        {
+          "type": "twitter",
+          "url": "https://x.com/glorpsolana"
+        },
+        {
+          "type": "tiktok",
+          "url": "https://www.tiktok.com/@area51kitty4/video/7694814822420188447"
+        }
+      ],
+      "reason": "Below liquidity threshold"
+    },
+    {
+      "rank": null,
+      "mint": "GTLUP5qjgxsmcx1Gn5xSvBQcLZCKtFfTEet8pLY7pump",
+      "name": "dogecat",
+      "symbol": "DOGECAT",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": 2400.6,
+      "volume_24h_usd": 354265.31,
+      "transactions_24h": 12256.0,
+      "price_change_24h_percent": -98.37,
+      "pair_address": "7fxG3ykSuKzMyqEvMWgFFeKENF8Mm2WKdx6m2t9oqgJj",
+      "dex": "pumpswap",
+      "boost_amount": null,
+      "total_boost_amount": 30.0,
+      "telegram_claimed": false,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/7fxg3yksukzmyqevmwgffekenf8mm2wkdx6m2t9oqgjj",
+      "claimed_url": "https://dexscreener.com/solana/gtlup5qjgxsmcx1gn5xsvbqclzcktffteet8ply7pump",
+      "links_unverified": [
+        {
+          "url": "https://www.dogepeperh.lol"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/DogePepeRH"
+        }
+      ],
+      "reason": "Below liquidity threshold"
+    },
+    {
+      "rank": null,
+      "mint": "JpxR2s37aA2HTP5BK2Y6GMxB9qwdL5ndPxCxVPppump",
+      "name": "NOKI",
+      "symbol": "NOKI",
+      "eligible": false,
+      "score": 0,
+      "liquidity_usd": null,
+      "volume_24h_usd": 35994.86,
+      "transactions_24h": 1035.0,
+      "price_change_24h_percent": 458.0,
+      "pair_address": "8U8s25MbuseD5BMaaLi6xsP2mpUrW8qaTrS6H2ZP2z7j",
+      "dex": "pumpfun",
+      "boost_amount": null,
+      "total_boost_amount": 30.0,
+      "telegram_claimed": true,
+      "telegram_verified": false,
+      "pair_url": "https://dexscreener.com/solana/8u8s25mbused5bmaali6xsp2mpurw8qatrs6h2zp2z7j",
+      "claimed_url": "https://dexscreener.com/solana/jpxr2s37aa2htp5bk2y6gmxb9qwdl5ndpxcxvpppump",
+      "links_unverified": [
+        {
+          "url": "https://nokinest.com/"
+        },
+        {
+          "url": "https://nokinest.com/manifesto"
+        },
+        {
+          "url": "https://nokinest.com/watchers/program"
+        },
+        {
+          "type": "twitter",
+          "url": "https://x.com/NOKI_Watchers"
+        },
+        {
+          "type": "telegram",
+          "url": "https://t.me/NokiCommunityOfficial"
+        }
+      ],
+      "reason": "Missing liquidity data"
+    }
+  ],
+  "errors": []
+}
