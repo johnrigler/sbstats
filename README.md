@@ -22,3 +22,7 @@ python3 tools/rank_solana_candidates.py examples/solana/market/discovery/YYYY-MM
 ```
 
 Explore results in [the static candidate viewer](examples/solana/candidates.html). No Deno or Node.js needed.
+
+## ETHDenver 2027 coordination
+
+See [the project-specific ETHDenver / Zorkmid notes](docs/ethdenver-participation-metrics.md) for the proposed physical dartboard demonstration, conference materials, optional Zorkmid/ Base integration, and delivery gates. These are plans, not claims that a token, venue, or showcase is live.
