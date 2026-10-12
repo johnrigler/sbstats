@@ -4,13 +4,13 @@ set -euo pipefail
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 PREFIX="${PREFIX:-/data/data/com.termux/files/usr}"
 PORT=8001
-HOST=127.0.0.1
+HOST=0.0.0.0
 LEGACY=0
 for arg in "$@";do case "$arg" in
   --port=*) PORT="${arg#*=}";;
   --host=*) HOST="${arg#*=}";;
   --legacy) LEGACY=1;;
-  --help|-h) echo 'Usage: bash scripts/termux-apache.sh [--port=8001] [--host=127.0.0.1] [--legacy]';exit 0;;
+  --help|-h) echo 'Usage: bash scripts/termux-apache.sh [--port=8001] [--host=0.0.0.0] [--legacy]';exit 0;;
   *) echo "Unknown option: $arg" >&2;exit 2;;
 esac;done
 if ! command -v httpd >/dev/null || ! command -v php-fpm >/dev/null;then
@@ -86,6 +86,7 @@ if [[ ! -f "$STATE/fpm.pid" ]] || ! kill -0 "$(cat "$STATE/fpm.pid")" 2>/dev/nul
   php-fpm -y "$FPMCONF"
 fi
 httpd -f "$PRIVATECONF" -k start
-echo "SB Stats at http://$HOST:$PORT/"
+echo "SB Stats listens on $HOST:$PORT"
+echo "From another device use http://<TERMUX-100.x-or-LAN-IP>:$PORT/ (not 0.0.0.0)"
 echo "FPM logs: $PREFIX/var/log/sbstats/fpm.log"
 echo "Apache logs: $PREFIX/var/log/sbstats/apache-error.log"
