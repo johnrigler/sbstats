@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SB Stats | Solana candidates</title>
+<style>
+:root{font:16px system-ui;color-scheme:light dark}*{box-sizing:border-box}
+body{margin:0;background:#111a23;color:#e7edf5}main{max-width:1100px;margin:auto;padding:18px}
+h1{margin:0 0 8px}a{color:#8bd5ff}button,input,select{font:inherit;padding:9px;border:1px solid #53687c;background:#1c2a39;color:inherit;border-radius:7px}
+nav{display:flex;flex-wrap:wrap;gap:9px;margin:15px 0}.hint{color:#aab8c7}
+#list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px}
+article,.panel{background:#1c2a39;border:1px solid #35485c;border-radius:10px;padding:14px}
+article{cursor:pointer}article:focus{outline:2px solid #8bd5ff}article h3{margin:0 0 8px;overflow-wrap:anywhere}
+small,.sub{color:#aab8c7}.stats{display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:14px}
+#detail{margin:14px 0}#links{display:flex;flex-wrap:wrap;gap:8px}
+#links a{padding:7px 10px;border:1px solid #52718b;border-radius:6px}
+code{overflow-wrap:anywhere}.hidden{display:none}summary{cursor:pointer}
+</style></head><body><main>
+<h1>SB Stats / Solana candidate explorer</h1>
+<p class="hint">Discovery = paid boost listings. Market ranking = representative pool rolling 24h snapshot. Claimed social links are unverified.</p>
+<nav>
+<input id="file" type="file" accept=".json,application/json" multiple aria-label="Load discovery and ranking JSON">
+<button id="demo">Load latest repository discovery</button>
+<input id="search" placeholder="Search symbol, name or mint" aria-label="Search">
+<select id="sort" aria-label="Sort"><option value="rank">Market rank</option><option value="boost">Total boosts</option><option value="volume">24h volume</option><option value="liquidity">Liquidity</option></select>
+</nav><p id="status" role="status">Choose local JSON files or load the repository discovery.</p>
+<section id="detail" class="panel hidden" aria-live="polite"><h2 id="title"></h2><p id="summary"></p><p><code id="mint"></code> <button id="copy">Copy mint</button></p><h3>Websites and socials</h3><div id="links"></div><p class="hint">Links are supplied by listings, not verified endorsements. Confirm token identity before connecting wallets.</p></section>
+<div id="list"></div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+let discovery=null,ranking=null,selected=null;
+const money=v=>typeof v==='number'&&Number.isFinite(v)?'$'+v.toLocaleString(undefined,{maximumFractionDigits:0}):'unknown';
+function safeUrl(value){
+  try{const u=new URL(value);return ['https:','http:'].includes(u.protocol)?u.href:null}catch{return null}
+}
+function linksFor(c,r){
+  const links=[{type:'DEX Screener',url:c.claimed_url},...(Array.isArray(c.links_unverified)?c.links_unverified:[])];
+  if(r?.pair_url)links.unshift({type:'Market pair',url:r.pair_url});
+  links.push({type:'Solscan',url:'https://solscan.io/token/'+encodeURIComponent(c.mint)});
+  const seen=new Set();return links.flatMap(link=>{
+    const url=safeUrl(link.url);if(!url||seen.has(url))return [];
+    seen.add(url);return [{label:String(link.type||new URL(url).hostname),url}];
+  });
+}
+function records(){
+  const byMint=new Map((ranking?.candidates||[]).map(x=>[x.mint,x]));
+  return (discovery?.candidates||[]).map(c=>({c,r:byMint.get(c.mint)||null}));
+}
+function detail(c,r){
+  selected=c.mint;$('detail').classList.remove('hidden');
+  $('title').textContent=(r?.name||r?.symbol||'Solana candidate')+(r?.symbol&&r.name?' ('+r.symbol+')':'');
+  $('mint').textContent=c.mint;
+  $('summary').textContent='Reported total boosts: '+(c.total_boost_amount??'unknown')+
+    ' | Liquidity: '+money(r?.liquidity_usd)+' | Rolling 24h volume: '+money(r?.volume_24h_usd)+
+    ' | Trades: '+(r?.transactions_24h??'unknown')+' | Rank: '+(r?.rank??'not eligible / not measured');
+  $('links').replaceChildren();
+  for(const item of linksFor(c,r)){
+    const a=document.createElement('a');a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';
+    a.textContent=item.label;$('links').append(a);
+  }
+  $('detail').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function draw(){
+  const q=$('search').value.trim().toLowerCase(),mode=$('sort').value;
+  const rows=records().filter(({c,r})=>[c.mint,r?.name,r?.symbol].some(x=>(x||'').toLowerCase().includes(q)));
+  const key=({c,r})=>mode==='boost'?(c.total_boost_amount??-1):mode==='volume'?(r?.volume_24h_usd??-1):mode==='liquidity'?(r?.liquidity_usd??-1):r?.rank?100000-r.rank:-1;
+  rows.sort((a,b)=>key(b)-key(a)||a.c.mint.localeCompare(b.c.mint));
+  $('list').replaceChildren();
+  for(const {c,r} of rows){
+    const article=document.createElement('article');article.tabIndex=0;article.setAttribute('role','button');
+    const h=document.createElement('h3');h.textContent=(r?.name||r?.symbol||c.mint.slice(0,12)+'…')+(r?.rank?' · #'+r.rank:'');
+    const p=document.createElement('p');p.className='sub';p.textContent=c.mint;
+    const stats=document.createElement('div');stats.className='stats';
+    for(const [label,value] of [['Boosts',c.total_boost_amount??'unknown'],['Liquidity',money(r?.liquidity_usd)],
+      ['24h volume',money(r?.volume_24h_usd)],['Links',linksFor(c,r).length]]){
+      const cell=document.createElement('div');cell.textContent=label+': '+value;stats.append(cell);
+    }
+    article.append(h,p,stats);article.addEventListener('click',()=>detail(c,r));
+    article.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();detail(c,r)}});
+    $('list').append(article);
+  }
+  $('status').textContent=rows.length+' visible / '+records().length+' candidates · discovery '+(discovery?.date_utc||'not loaded')+
+    ' · ranking '+(ranking?'loaded':'not loaded');
+}
+function ingest(o){
+  if(o.schema==='sbstats/discovery-v1'&&Array.isArray(o.candidates))discovery=o;
+  else if(o.schema==='sbstats/candidate-ranking-v1'&&Array.isArray(o.candidates))ranking=o;
+  else throw Error('Unsupported SB Stats JSON schema');
+  if(discovery&&ranking&&discovery.date_utc!==ranking.date_utc)throw Error('Discovery and ranking dates differ');
+  draw();
+}
+$('file').addEventListener('change',async e=>{
+  try{for(const file of e.target.files)ingest(JSON.parse(await file.text()))}
+  catch(err){$('status').textContent='Cannot load: '+err.message}
+});
+$('demo').addEventListener('click',async()=>{
+  try{
+    const p='market/discovery/';const day=new Date().toISOString().slice(0,10);
+    const candidates=[day];const prev=new Date(Date.now()-86400000).toISOString().slice(0,10);candidates.push(prev);
+    let loaded=false;
+    for(const d of candidates){const res=await fetch(p+d+'.json');if(res.ok){ingest(await res.json());loaded=true;
+      const ranked=await fetch('market/rankings/'+d+'.json');if(ranked.ok)ingest(await ranked.json());break}}
+    if(!loaded)throw Error('No dated discovery found for current/previous UTC day; use file picker.');
+  }catch(err){$('status').textContent=err.message}
+});
+$('search').addEventListener('input',draw);$('sort').addEventListener('change',draw);
+$('copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(selected)}catch{window.prompt('Copy mint',selected)}});
+</script></main></body></html>
