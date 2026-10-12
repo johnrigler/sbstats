@@ -51,7 +51,7 @@ for spec in "rewrite rewrite_module" "proxy proxy_module" "proxy_fcgi proxy_fcgi
       echo "Check: find \"$PREFIX\" -name 'mod_$name.so'" >&2
       exit 1
     fi
-    printf 'LoadModule %s "%s"\\n' "$module" "$so" >> "$MODULECONF"
+    printf 'LoadModule %s "%s"\n' "$module" "$so" >> "$MODULECONF"
   fi
 done
 # Build a private Apache config from the packaged one, then include our snippets.
