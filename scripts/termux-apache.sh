@@ -54,11 +54,11 @@ for spec in "rewrite rewrite_module" "proxy proxy_module" "proxy_fcgi proxy_fcgi
     printf 'LoadModule %s "%s"\\n' "$module" "$so" >> "$MODULECONF"
   fi
 done
-# conf.d must be included by packaged httpd.conf. Check it before continuing.
-if ! grep -Eq '^[[:space:]]*Include(Optional)?[[:space:]]+.*conf\\.d' "$PREFIX/etc/apache2/httpd.conf"; then
-  echo "Apache does not include conf.d. Add: IncludeOptional etc/apache2/conf.d/*.conf" >&2
-  exit 1
-fi
+# Build a private Apache config from the packaged one, then include our snippets.
+# This leaves Termux's original httpd.conf untouched.
+PRIVATECONF="$STATE/httpd.conf"
+cp "$PREFIX/etc/apache2/httpd.conf" "$PRIVATECONF"
+printf '\nServerName localhost\nInclude "%s"\nInclude "%s"\n' "$MODULECONF" "$APCONF" >> "$PRIVATECONF"
 cat > "$APCONF" <<EOF
 Listen $HOST:$PORT
 <VirtualHost $HOST:$PORT>
@@ -78,9 +78,11 @@ Listen $HOST:$PORT
  CustomLog "$PREFIX/var/log/sbstats/apache-access.log" common
 </VirtualHost>
 EOF
-httpd -t
-php-fpm -y "$FPMCONF"
-httpd -k restart || httpd -k start
+httpd -t -f "$PRIVATECONF"
+if [[ ! -f "$STATE/fpm.pid" ]] || ! kill -0 "$(cat "$STATE/fpm.pid")" 2>/dev/null; then
+  php-fpm -y "$FPMCONF"
+fi
+httpd -f "$PRIVATECONF" -k start
 echo "SB Stats at http://$HOST:$PORT/"
 echo "FPM logs: $PREFIX/var/log/sbstats/fpm.log"
 echo "Apache logs: $PREFIX/var/log/sbstats/apache-error.log"
