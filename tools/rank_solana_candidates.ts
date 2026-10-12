@@ -1,6 +1,6 @@
 // SB Stats / Solana boosted-candidate ranking. Deno TypeScript; no Node or dependencies.
 // Usage: deno run --allow-read --allow-write --allow-net=api.dexscreener.com tools/rank_solana_candidates.ts examples/solana/market/discovery/YYYY-MM-DD.json
-type Candidate = { mint: string; boost_amount?: number | null; total_boost_amount?: number | null; links_unverified?: unknown[] };
+type Candidate = { mint: string; claimed_url?: string | null; boost_amount?: number | null; total_boost_amount?: number | null; links_unverified?: unknown[] };
 type Discovery = { schema: string; date_utc: string; candidates: Candidate[] };
 type Pair = {
   chainId?: string; pairAddress?: string; dexId?: string; url?: string;
@@ -17,6 +17,7 @@ type Ranked = {
   price_change_24h_percent: number | null; pair_address: string | null; dex: string | null;
   boost_amount: number | null; total_boost_amount: number | null;
   telegram_claimed: boolean; telegram_verified: false; pair_url: string | null;
+  claimed_url: string | null; links_unverified: unknown[];
   reason: string | null;
 };
 const API = "https://api.dexscreener.com";
@@ -65,7 +66,8 @@ function classify(c: Candidate, p: Pair | null): Ranked {
     pair_address: p?.pairAddress ?? null, dex: p?.dexId ?? null,
     boost_amount: num(c.boost_amount), total_boost_amount: num(c.total_boost_amount),
     telegram_claimed: telegramClaimed, telegram_verified: false,
-    pair_url: p?.url ?? null, reason: !p ? "No matching Solana pool" :
+    pair_url: p?.url ?? null, claimed_url: c.claimed_url ?? null,
+    links_unverified: c.links_unverified ?? [], reason: !p ? "No matching Solana pool" :
       liquidity === null ? "Missing liquidity data" :
       liquidity < MIN_LIQUIDITY_USD ? "Below liquidity threshold" :
       volume === null ? "Missing volume data" : null };
