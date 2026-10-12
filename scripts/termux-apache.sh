@@ -58,6 +58,9 @@ done
 # This leaves Termux's original httpd.conf untouched.
 PRIVATECONF="$STATE/httpd.conf"
 cp "$PREFIX/etc/apache2/httpd.conf" "$PRIVATECONF"
+# The packaged configuration may already load conf.d; do not include it twice.
+# The private copy removes any inherited SB Stats include and appends one explicit include.
+sed -i '/^[[:space:]]*IncludeOptional[[:space:]].*conf\\.d/d; /^[[:space:]]*Include[[:space:]].*conf\\.d/d' "$PRIVATECONF"
 printf '\nServerName localhost\nInclude "%s"\nInclude "%s"\n' "$MODULECONF" "$APCONF" >> "$PRIVATECONF"
 cat > "$APCONF" <<EOF
 Listen $HOST:$PORT
